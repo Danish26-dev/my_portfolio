@@ -6,6 +6,7 @@ import { ArrowDownRight, FileText, Mail } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import { ResumeLink } from "@/components/layout/ResumeViewer";
 import { HeroBackground } from "@/components/three/HeroBackground";
+import { HeroBackdrop } from "@/components/three/StaticHero";
 import { GithubIcon, LinkedinIcon } from "@/components/ui/BrandIcons";
 import { SplitText } from "@/components/ui/SplitText";
 import { useStoryProgress } from "@/hooks/useStoryProgress";
@@ -69,11 +70,16 @@ export function Hero() {
 
   return (
     <section id="home" ref={ref} aria-labelledby="hero-title" className="relative lg:h-[185svh]">
-      <div className="relative flex min-h-[100svh] items-center overflow-hidden lg:sticky lg:top-0 lg:h-[100svh]">
-        <HeroBackground progress={progress} />
+      <div className="relative overflow-hidden lg:sticky lg:top-0 lg:flex lg:h-[100svh] lg:items-center">
+        <HeroBackdrop />
+        {/* Phones/tablets: the bird gets its own stage above the copy (so it can never overlap the name).
+            Desktop: the same box becomes the full-bleed background of the pinned hero. */}
+        <div className="relative z-0 mt-[68px] h-[clamp(290px,44svh,430px)] lg:absolute lg:inset-0 lg:mt-0 lg:h-auto">
+          <HeroBackground progress={progress} />
+        </div>
 
         <motion.div
-          className="container-page relative z-10 pb-20 pt-[47svh] lg:pb-14 lg:pt-24"
+          className="container-page relative z-10 pb-20 pt-4 lg:pb-14 lg:pt-24"
           style={reduce ? undefined : { opacity, y: lift }}
         >
           <div ref={fitRef} style={fit < 1 ? { transform: `scale(${fit})`, transformOrigin: "left center" } : undefined}>
@@ -140,7 +146,7 @@ export function Hero() {
                   <Mail size={18} />
                 </a>
               </div>
-              <a href="#contact" className="group flex items-center gap-3 font-mono text-[11px] font-medium uppercase tracking-[0.18em] text-ink">
+              <a href="#contact" className="group -my-2 flex items-center gap-3 py-2 font-mono text-[11px] font-medium uppercase tracking-[0.18em] text-ink">
                 <span className="relative flex h-2.5 w-2.5">
                   <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-accent opacity-70 motion-reduce:animate-none" />
                   <span className="relative inline-flex h-2.5 w-2.5 rounded-full bg-accent" />

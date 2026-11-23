@@ -7,6 +7,7 @@
 const common = /* glsl */ `
 uniform float uTime;
 uniform float uSpread;   // 0 raised -> 1 wings swept open and down
+uniform float uBeat;     // wingbeat speed, rad/s
 uniform float uFlap;     // flap strength
 uniform float uForm;     // 0 scattered droplets -> 1 formed bird
 uniform float uDisperse; // 0 intact -> 1 dissolved into falling water
@@ -19,7 +20,7 @@ mat2 rot2(float a){ float c = cos(a), s = sin(a); return mat2(c, s, -s, c); }
 vec3 wingXf(vec3 p, float side, float arm){
   if (abs(side) < 0.5) return p;
   vec2 S = vec2(0.28 * side, 1.15);
-  float ph = uTime * 0.9;
+  float ph = uTime * uBeat;
   float flap = sin(ph) * uFlap;
   float a = side * (flap * (0.04 + 0.20 * arm) - uSpread * (0.10 + 0.66 * arm));
   p.xy = S + rot2(a) * (p.xy - S);

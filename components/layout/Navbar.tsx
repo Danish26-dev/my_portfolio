@@ -54,7 +54,7 @@ export function Navbar() {
         initial={{ y: -80, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         transition={{ duration: 0.9, delay: 0.2, ease: easeOutExpo }}
-        className="fixed inset-x-0 top-0 z-50 flex justify-center px-3 pt-3 sm:px-6 sm:pt-5"
+        className="fixed inset-x-0 top-0 z-50 flex justify-center px-3 pt-[max(0.75rem,env(safe-area-inset-top))] sm:px-6 sm:pt-5"
       >
         <nav
           aria-label="Primary"
@@ -65,7 +65,7 @@ export function Navbar() {
               : "border-transparent bg-transparent"
           )}
         >
-          <Link href="/" className="group flex items-center gap-2.5" aria-label={`${site.name} — home`}>
+          <Link href="/" className="group -m-2 flex items-center gap-2.5 p-2" aria-label={`${site.name} — home`}>
             <PhoenixMark size={30} className="transition-transform duration-500 group-hover:-translate-y-0.5" />
             <span className="hidden font-display text-sm font-semibold uppercase tracking-[0.12em] sm:block">
               Danish<span className="text-accent">.</span>
@@ -121,7 +121,7 @@ export function Navbar() {
             role="dialog"
             aria-modal="true"
             aria-label="Menu"
-            className="fixed inset-0 z-40 flex flex-col justify-center bg-paper/95 px-8 backdrop-blur-xl lg:hidden"
+            className="fixed inset-0 z-40 flex flex-col overflow-y-auto bg-paper/95 px-8 pb-10 pt-28 backdrop-blur-xl lg:hidden [&>ul]:my-auto"
             initial={{ clipPath: "circle(0% at calc(100% - 40px) 40px)" }}
             animate={{ clipPath: "circle(150% at calc(100% - 40px) 40px)" }}
             exit={{ clipPath: "circle(0% at calc(100% - 40px) 40px)" }}

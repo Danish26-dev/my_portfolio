@@ -49,7 +49,7 @@ export function Projects() {
                 aria-pressed={filter === f}
                 onClick={() => setFilter(f)}
                 className={cn(
-                  "relative isolate px-4 py-2.5 font-mono text-[11px] font-medium uppercase tracking-[0.16em] transition-colors",
+                  "relative isolate min-h-11 px-4 py-2.5 font-mono text-[11px] font-medium uppercase tracking-[0.16em] transition-colors",
                   filter === f ? "text-paper" : "text-muted hover:text-ink"
                 )}
               >

@@ -45,7 +45,7 @@ export function Expertise() {
         </SectionHeading>
 
         <div className="grid gap-10 lg:grid-cols-12">
-          <div role="tablist" aria-label="Skill categories" className="-mx-5 flex gap-2 overflow-x-auto px-5 pb-2 lg:col-span-4 lg:mx-0 lg:flex-col lg:gap-0 lg:overflow-visible lg:px-0">
+          <div role="tablist" aria-label="Skill categories" className="no-scrollbar -mx-5 flex snap-x gap-2 overflow-x-auto px-5 pb-2 lg:col-span-4 lg:mx-0 lg:flex-col lg:gap-0 lg:overflow-visible lg:px-0">
             {skillCategories.map((c, i) => (
               <button
                 key={c.id}
@@ -142,7 +142,7 @@ export function Expertise() {
                             aria-pressed={s.id === skillId}
                             onClick={() => setSkillId(s.id === skillId ? null : s.id)}
                             className={cn(
-                              "border px-3.5 py-2.5 text-sm transition-colors",
+                              "min-h-11 border px-3.5 py-2.5 text-sm transition-colors",
                               s.id === skillId
                                 ? "border-accent bg-accent/15 text-ink"
                                 : "border-primary/25 bg-paper/60 text-ink/85"

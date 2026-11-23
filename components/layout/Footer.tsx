@@ -25,15 +25,15 @@ export function Footer() {
             <Link
               key={n.id}
               href={n.id === "home" ? "/" : `/#${n.id}`}
-              className="py-1 text-muted transition-colors hover:text-primary"
+              className="py-2.5 text-muted md:py-1 transition-colors hover:text-primary"
             >
               {n.label}
             </Link>
           ))}
-          <Link href="/#education" className="py-1 text-muted transition-colors hover:text-primary">
+          <Link href="/#education" className="py-2.5 text-muted md:py-1 transition-colors hover:text-primary">
             Education
           </Link>
-          <Link href="/#beyond" className="py-1 text-muted transition-colors hover:text-primary">
+          <Link href="/#beyond" className="py-2.5 text-muted md:py-1 transition-colors hover:text-primary">
             Beyond
           </Link>
         </nav>

@@ -34,6 +34,11 @@ interface Props {
   pointer: MutableRefObject<PointerState>;
   tier: "low" | "high";
   reduced: boolean;
+  /**
+   * Phone/tablet layout: the canvas is its own stage above the copy, so the bird is centred and
+   * fitted to it, and it flies (stronger wingbeat, rising and falling with each stroke, banking).
+   */
+  stage?: boolean;
 }
 
 const clamp01 = (x: number) => Math.min(1, Math.max(0, x));
@@ -42,7 +47,7 @@ const smooth = (a: number, b: number, x: number) => {
   return t * t * (3 - 2 * t);
 };
 
-function World({ mode, progress, pointer, tier, reduced }: Props) {
+function World({ mode, progress, pointer, tier, reduced, stage = false }: Props) {
   const { viewport, gl, size } = useThree();
   const low = tier === "low";
   const group = useRef<THREE.Group>(null);
@@ -55,6 +60,7 @@ function World({ mode, progress, pointer, tier, reduced }: Props) {
     () => ({
       uTime: { value: 0 },
       uSpread: { value: 0 },
+      uBeat: { value: 0.9 },
       uFlap: { value: reduced ? 0.5 : 1 },
       uForm: { value: reduced ? 1 : 0 },
       uDisperse: { value: 0 },
@@ -72,6 +78,7 @@ function World({ mode, progress, pointer, tier, reduced }: Props) {
     () => ({
       uTime: U.uTime,
       uSpread: U.uSpread,
+      uBeat: U.uBeat,
       uFlap: U.uFlap,
       uForm: U.uForm,
       uDisperse: U.uDisperse,
@@ -148,7 +155,11 @@ function World({ mode, progress, pointer, tier, reduced }: Props) {
     U.uSpread.value = spread;
     U.uDisperse.value = disperse;
     U.uWater.value = water;
-    U.uFlap.value = (reduced ? 0.5 : 1) * (1 - disperse * 0.5);
+    // flight: only on the phone stage, never with reduced motion
+    const fly = stage && mode === "hero" && !reduced ? 1 : 0;
+    const beat = 0.9 + fly * 1.6;
+    U.uBeat.value = beat;
+    U.uFlap.value = ((reduced ? 0.5 : 1) + fly * 0.6) * (1 - disperse * 0.5);
     U.uPixelRatio.value = gl.getPixelRatio();
 
     // ---- placement ----
@@ -159,19 +170,17 @@ function World({ mode, progress, pointer, tier, reduced }: Props) {
     let x: number;
     let y: number;
     if (mode === "hero") {
-      if (narrow) {
-        // Sized in screen pixels so it stays above the copy even when the mobile hero is taller than the screen.
-        const wpp = vh / size.height; // world units per pixel
-        s = Math.min((vw * 0.95) / 10, (330 * wpp) / 9.2);
+      if (stage) {
+        // the canvas IS the stage: fit the whole bird inside it and centre it
+        s = Math.min((vw * 0.98) / 10, (vh * 0.92) / 9.2);
         x = 0;
-        y = vh / 2 - 205 * wpp;
+        y = -0.05 + p * 0.3;
       } else {
         s = Math.min((vw * 0.44) / 10, (vh * 0.88) / 9.2, 0.9);
         x = vw * 0.232;
-        y = -0.1;
+        y = -0.1 + p * 0.6;
+        s *= 1 + p * 0.08;
       }
-      y += p * 0.6;
-      s *= 1 + p * 0.08;
     } else if (narrow) {
       s = Math.min((vw * 0.92) / 10, (vh * 0.6) / 9.2);
       x = 0;
@@ -182,6 +191,11 @@ function World({ mode, progress, pointer, tier, reduced }: Props) {
       y = 0.1;
     }
     y += Math.sin(time * 0.6) * 0.08;
+    if (fly) {
+      y += -Math.cos(time * beat) * 0.2 + Math.sin(time * 0.7) * 0.06; // rises on each downstroke
+      y -= (1 - form) * 1.3;                                          // takes off from the water as it forms
+      x += Math.sin(time * 0.35) * 0.2;                                // drifts side to side
+    }
 
     const k = placed.current ? 1 - Math.exp(-d * 6) : 1;
     placed.current = true;
@@ -192,12 +206,14 @@ function World({ mode, progress, pointer, tier, reduced }: Props) {
 
     // ---- pointer: parallax tilt + droplets pushed aside ----
     const pt = pointer.current;
-    const tx = reduced || !pt.active ? 0 : pt.x;
+    // touch screens have no pointer, so the flying bird banks on its own
+    const tx = reduced ? 0 : pt.active ? pt.x : fly * Math.sin(time * 0.45) * 0.7;
     const ty = reduced || !pt.active ? 0 : pt.y;
     ptr.current.x += (tx - ptr.current.x) * 0.06;
     ptr.current.y += (ty - ptr.current.y) * 0.06;
     g.rotation.y = ptr.current.x * 0.26;
     g.rotation.x = -ptr.current.y * 0.09;
+    g.rotation.z = fly * Math.sin(time * 0.5) * 0.05;
     const wx = pt.x * (vw / 2);
     const wy = pt.y * (vh / 2);
     U.uPointer.value.set((wx - g.position.x) / cs, (wy - g.position.y) / cs);

@@ -7,6 +7,8 @@ export const site = {
   url: process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000",
   email: "mddanisha288@gmail.com",
   phone: "+91-6364637752",
+  /** Form-to-email relay (FormSubmit). Messages from the contact form are delivered to `email`. */
+  contactEndpoint: "https://formsubmit.co/ajax/mddanisha288@gmail.com",
   phoneHref: "tel:+916364637752",
   github: "https://github.com/Danish26-dev",
   linkedin: "https://www.linkedin.com/in/md-danish-ali-dev",

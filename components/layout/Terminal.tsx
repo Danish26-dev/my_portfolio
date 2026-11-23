@@ -101,7 +101,7 @@ export function Terminal() {
         type="button"
         onClick={() => setOpen(true)}
         aria-label="Open DANISH.OS terminal"
-        className="fixed bottom-5 right-5 z-40 flex h-12 w-12 items-center justify-center gap-2 rounded-full border border-primary/40 bg-paper/80 font-mono text-[11px] uppercase tracking-[0.16em] text-primary backdrop-blur-md transition-colors hover:bg-primary/15 sm:bottom-8 sm:right-8 sm:w-auto sm:px-4"
+        className="fixed bottom-[max(1.25rem,env(safe-area-inset-bottom))] right-5 z-40 flex h-12 w-12 items-center justify-center gap-2 rounded-full border border-primary/40 bg-paper/80 font-mono text-[11px] uppercase tracking-[0.16em] text-primary backdrop-blur-md transition-colors hover:bg-primary/15 sm:bottom-8 sm:right-8 sm:w-auto sm:px-4"
       >
         <TerminalSquare size={16} />
         <span className="hidden sm:inline">Danish.OS</span>
@@ -166,7 +166,7 @@ export function Terminal() {
                   aria-label="Terminal command"
                   autoComplete="off"
                   spellCheck={false}
-                  className="flex-1 bg-transparent text-ink outline-none placeholder:text-muted/60"
+                  className="flex-1 bg-transparent text-[16px] text-ink outline-none placeholder:text-muted/60"
                   placeholder="type a command, e.g. help"
                 />
               </form>

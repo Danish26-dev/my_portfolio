@@ -135,7 +135,7 @@ export function Achievements() {
             role="tablist"
             aria-label="Achievements"
             aria-orientation="vertical"
-            className="-mx-5 flex gap-2 overflow-x-auto px-5 pb-2 lg:col-span-5 lg:mx-0 lg:flex-col lg:gap-0 lg:overflow-visible lg:px-0 lg:pb-0"
+            className="no-scrollbar -mx-5 flex snap-x gap-2 overflow-x-auto px-5 pb-2 lg:col-span-5 lg:mx-0 lg:flex-col lg:gap-0 lg:overflow-visible lg:px-0 lg:pb-0"
           >
             {achievements.map((item, i) => (
               <button
