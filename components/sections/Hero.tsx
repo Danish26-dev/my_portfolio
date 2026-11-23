@@ -1,7 +1,8 @@
 "use client";
 
 import { motion, useReducedMotion, type Variants } from "framer-motion";
-import { ArrowDownRight, Download, Mail } from "lucide-react";
+import { ArrowDownRight, FileText, Mail } from "lucide-react";
+import { ResumeLink } from "@/components/layout/ResumeViewer";
 import { useEffect, useState } from "react";
 import { HeroBackground } from "@/components/three/HeroBackground";
 import { GithubIcon, LinkedinIcon } from "@/components/ui/BrandIcons";
@@ -78,9 +79,9 @@ export function Hero() {
             <a href="#projects" className="btn-primary">
               Explore my work <ArrowDownRight size={16} />
             </a>
-            <a href={site.resume} download className="btn-ghost">
-              <Download size={15} /> Download resume
-            </a>
+            <ResumeLink className="btn-ghost">
+              <FileText size={15} /> View resume
+            </ResumeLink>
           </motion.div>
 
           <motion.div variants={item} className="mt-10 flex flex-wrap items-center gap-x-6 gap-y-4">

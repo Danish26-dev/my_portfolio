@@ -36,13 +36,18 @@ The hero is a real-time 3D "agent core" (`components/three/HeroScene.tsx`): a di
 
 ## Things still to supply (nothing was invented)
 
-- **Resume:** `public/Md-Danish-Ali-Resume.pdf` is a generated stand-in built from the facts in the brief (`npm run resume`). Replace it with the official PDF using the same filename.
 - **Repo / demo URLs:** set `links.github` / `links.demo` per project. Buttons appear automatically; until then case pages show "not added yet".
 - **Case-study gaps:** "Engineering contributions" and "Challenges" show dashed *To complete* panels. The five additional projects (Yuktidoot, Odyssey, LactIQ, Klaim, Guruko) have name + tagline only.
 - **Architecture diagrams** are drafts derived from the stated components; verify flow and grouping.
 - **Logos / certificates:** add files to `public/logos` / `public/certificates` and set `logo` / `certificate` on the achievement.
 - **Athernex Hackathon year** is unknown, so the timeline shows "Date to confirm".
 - **PrintX paper** is deliberately not listed. Add it to `research.ts` once publication details and a link exist.
+
+## Resume
+
+The file is `public/Md-Danish-Ali-Resume.pdf`. Every "Resume" button uses `ResumeLink` (`components/layout/ResumeViewer.tsx`): a click opens an in-page viewer with **Download** and **New tab** actions. Ctrl/Cmd-click, or no JavaScript, opens the PDF in a new tab. On phones the viewer offers Open / Download buttons because mobile browsers don't preview PDFs inline reliably.
+
+To update it, replace the PDF in `public/` and keep the filename.
 
 ## Contact form
 

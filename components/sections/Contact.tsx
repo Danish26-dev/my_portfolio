@@ -1,7 +1,8 @@
 "use client";
 
 import { AnimatePresence, motion } from "framer-motion";
-import { AlertCircle, CheckCircle2, Download, Mail, Phone, Send } from "lucide-react";
+import { AlertCircle, CheckCircle2, FileText, Mail, Phone, Send } from "lucide-react";
+import { ResumeLink } from "@/components/layout/ResumeViewer";
 import { useState } from "react";
 import { GithubIcon, LinkedinIcon } from "@/components/ui/BrandIcons";
 import { LineReveal, Reveal } from "@/components/ui/Reveal";
@@ -142,9 +143,9 @@ export function Contact() {
               <a href={`mailto:${site.email}`} className="btn-primary w-full sm:w-auto">
                 <Mail size={15} /> Email me
               </a>
-              <a href={site.resume} download className="btn-ghost mt-3 w-full sm:ml-3 sm:mt-0 sm:w-auto">
-                <Download size={15} /> Resume
-              </a>
+              <ResumeLink className="btn-ghost mt-3 w-full sm:ml-3 sm:mt-0 sm:w-auto">
+                <FileText size={15} /> View resume
+              </ResumeLink>
             </Reveal>
             <ul className="mt-10 border-t hairline">
               {links.map((l, i) => (

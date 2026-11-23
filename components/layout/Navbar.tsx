@@ -8,6 +8,7 @@ import { Menu, X } from "lucide-react";
 import { navAlias, navItems, site } from "@/lib/data/site";
 import { useActiveSection } from "@/hooks/useActiveSection";
 import { PhoenixMark } from "@/components/ui/Logo";
+import { ResumeLink } from "./ResumeViewer";
 import { cn, easeOutExpo } from "@/lib/utils";
 
 const ids = [
@@ -106,13 +107,9 @@ export function Navbar() {
           </ul>
 
           <div className="flex items-center gap-2">
-            <a
-              href={site.resume}
-              download
-              className="hidden border border-primary/50 px-4 py-2 font-mono text-[11px] font-medium uppercase tracking-[0.16em] text-primary transition-colors hover:bg-primary hover:text-paper sm:block"
-            >
+            <ResumeLink className="hidden border border-primary/50 px-4 py-2 font-mono text-[11px] font-medium uppercase tracking-[0.16em] text-primary transition-colors hover:bg-primary hover:text-paper sm:block">
               Resume
-            </a>
+            </ResumeLink>
             <button
               type="button"
               className="grid h-10 w-10 place-items-center rounded-full border border-ink/15 lg:hidden"
@@ -162,9 +159,9 @@ export function Navbar() {
                 </motion.li>
               ))}
             </ul>
-            <a href={site.resume} download className="btn-primary mt-10 self-start">
-              Download resume
-            </a>
+            <ResumeLink className="btn-primary mt-10 self-start" onClick={() => setOpen(false)}>
+              View resume
+            </ResumeLink>
           </motion.div>
         )}
       </AnimatePresence>

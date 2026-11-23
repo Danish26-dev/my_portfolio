@@ -8,6 +8,7 @@ import { ScrollProgress } from "@/components/layout/ScrollProgress";
 import { BackToTop } from "@/components/layout/BackToTop";
 import { CustomCursor } from "@/components/layout/CustomCursor";
 import { Terminal } from "@/components/layout/Terminal";
+import { ResumeProvider } from "@/components/layout/ResumeViewer";
 import { site } from "@/lib/data/site";
 
 const display = Bricolage_Grotesque({
@@ -79,14 +80,16 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         >
           Skip to content
         </a>
-        <Preloader />
-        <ScrollProgress />
-        <CustomCursor />
-        <Navbar />
-        <main id="main">{children}</main>
-        <Footer />
-        <Terminal />
-        <BackToTop />
+        <ResumeProvider>
+          <Preloader />
+          <ScrollProgress />
+          <CustomCursor />
+          <Navbar />
+          <main id="main">{children}</main>
+          <Footer />
+          <Terminal />
+          <BackToTop />
+        </ResumeProvider>
       </body>
     </html>
   );
