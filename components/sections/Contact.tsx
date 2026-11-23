@@ -21,7 +21,7 @@ function validate(v: Fields): Errors {
   return e;
 }
 
-type Status = "idle" | "invalid" | "sending" | "sent" | "failed";
+type Status = "idle" | "invalid" | "sending" | "sent" | "failed" | "mailto";
 
 /**
  * Sends the message to the inbox in `site.email` through a form-to-email relay (see site.contactEndpoint).
@@ -60,6 +60,12 @@ function ContactForm() {
       setStatus("sent");
       return;
     }
+    if (!site.contactKey) {
+      // no relay configured: hand the message to the visitor's mail app instead of failing
+      window.location.href = fallbackHref();
+      setStatus("mailto");
+      return;
+    }
     setStatus("sending");
     const ctrl = new AbortController();
     const timer = setTimeout(() => ctrl.abort(), 20000);
@@ -69,12 +75,13 @@ function ContactForm() {
         headers: { "Content-Type": "application/json", Accept: "application/json" },
         signal: ctrl.signal,
         body: JSON.stringify({
+          access_key: site.contactKey,
+          subject: `Portfolio message from ${values.name.trim()}`,
+          from_name: "Portfolio contact form",
           name: values.name.trim(),
           email: values.email.trim(),
           message: values.message.trim(),
-          _subject: `Portfolio message from ${values.name.trim()}`,
-          _template: "table",
-          _captcha: "false",
+          botcheck: false,
         }),
       });
       const data = (await res.json().catch(() => ({}))) as { success?: string | boolean };
@@ -101,7 +108,7 @@ function ContactForm() {
       <div aria-hidden="true" className="absolute -left-[9999px] h-0 w-0 overflow-hidden">
         <label>
           Leave this empty
-          <input type="text" name="_honey" tabIndex={-1} autoComplete="off" value={honey} onChange={(e) => setHoney(e.target.value)} />
+          <input type="text" name="website" tabIndex={-1} autoComplete="off" value={honey} onChange={(e) => setHoney(e.target.value)} />
         </label>
       </div>
 
@@ -141,6 +148,15 @@ function ContactForm() {
               <motion.p key="ok" initial={{ opacity: 0, y: 6 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }} className="flex items-start gap-2 text-primary">
                 <CheckCircle2 size={16} className="mt-0.5 shrink-0" />
                 <span>Message sent{sentTo ? `. I'll reply to ${sentTo}.` : "."}</span>
+              </motion.p>
+            )}
+            {status === "mailto" && (
+              <motion.p key="mailto" initial={{ opacity: 0, y: 6 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }} className="flex items-start gap-2 text-primary">
+                <Mail size={16} className="mt-0.5 shrink-0" />
+                <span>
+                  Your mail app should open with the message ready to send. If it didn&apos;t,{" "}
+                  <a href={fallbackHref()} className="underline underline-offset-4">tap here</a> or write to {site.email}.
+                </span>
               </motion.p>
             )}
             {status === "invalid" && (
