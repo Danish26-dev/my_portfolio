@@ -1,0 +1,182 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --color-bg: #EDECE6;
+  --color-primary: #1546D9;
+  --color-accent: #F9B318;
+  --color-text-muted: #1E293B; /* Recommended dark neutral for long body copy */
+
+  /* derived */
+  --color-ink: #0F172A;
+  --line: rgba(30, 41, 59, 0.16);
+}
+
+html {
+  position: relative;
+  scroll-behavior: smooth;
+  scroll-padding-top: 96px;
+  background: var(--color-bg);
+  color-scheme: light;
+}
+
+body {
+  position: relative;
+  background: var(--color-bg);
+  color: var(--color-ink);
+  font-family: var(--font-body), system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+::selection {
+  background: var(--color-accent);
+  color: var(--color-ink);
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+}
+::-webkit-scrollbar-track {
+  background: var(--color-bg);
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(30, 41, 59, 0.35);
+  border-radius: 10px;
+  border: 2px solid var(--color-bg);
+}
+
+@layer components {
+  .container-page {
+    @apply mx-auto w-full max-w-page px-5 sm:px-8 lg:px-12;
+  }
+
+  .section {
+    @apply relative py-24 sm:py-32;
+  }
+
+  .eyebrow {
+    @apply font-mono text-[11px] font-medium uppercase tracking-[0.28em] text-primary;
+  }
+
+  .display {
+    @apply font-display font-semibold uppercase leading-[0.92] tracking-tightest text-ink;
+  }
+
+  .h-section {
+    @apply display text-[clamp(2.4rem,6.4vw,5.6rem)];
+  }
+
+  /* Frosted paper surface. Used sparingly. */
+  .glass {
+    background: linear-gradient(160deg, rgba(255, 255, 255, 0.62), rgba(255, 255, 255, 0.28));
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    border: 1px solid var(--line);
+    box-shadow: 0 24px 60px -36px rgba(15, 23, 42, 0.35);
+  }
+
+  .hairline {
+    border-color: var(--line);
+  }
+
+  .btn {
+    @apply relative inline-flex items-center justify-center gap-2.5 whitespace-nowrap px-6 py-3.5 font-mono text-[12px] font-medium uppercase tracking-[0.18em] transition-colors duration-300;
+  }
+  .btn-primary {
+    @apply btn bg-primary text-paper;
+    clip-path: polygon(0 0, calc(100% - 12px) 0, 100% 12px, 100% 100%, 12px 100%, 0 calc(100% - 12px));
+  }
+  .btn-primary:hover {
+    background: var(--color-accent);
+    color: var(--color-ink);
+  }
+  .btn-ghost {
+    @apply btn text-ink;
+    border: 1px solid rgba(21, 70, 217, 0.5);
+  }
+  .btn-ghost:hover {
+    background: rgba(21, 70, 217, 0.08);
+    border-color: var(--color-primary);
+  }
+
+  .tag {
+    @apply inline-flex items-center border px-2.5 py-1 font-mono text-[10.5px] uppercase tracking-[0.14em] text-muted/80;
+    border-color: var(--line);
+  }
+}
+
+/* Subtle grid + grain used as section texture */
+.bg-grid {
+  background-image:
+    linear-gradient(to right, rgba(30, 41, 59, 0.07) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(30, 41, 59, 0.07) 1px, transparent 1px);
+  background-size: 64px 64px;
+  mask-image: radial-gradient(ellipse at center, #000 30%, transparent 75%);
+  -webkit-mask-image: radial-gradient(ellipse at center, #000 30%, transparent 75%);
+}
+
+.noise::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.045;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+}
+
+/* Award sheen follows the pointer via --mx / --my */
+.sheen {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: radial-gradient(
+    380px circle at var(--mx, 50%) var(--my, 0%),
+    rgba(249, 179, 24, 0.22),
+    transparent 60%
+  );
+  opacity: 0;
+  transition: opacity 0.4s;
+}
+.has-sheen:hover .sheen {
+  opacity: 1;
+}
+
+.text-outline {
+  -webkit-text-stroke: 1px rgba(30, 41, 59, 0.45);
+  color: transparent;
+}
+
+.flow-line {
+  stroke-dasharray: 5 7;
+  animation: flow 1.4s linear infinite;
+}
+
+@keyframes flow {
+  to {
+    stroke-dashoffset: -24;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  .flow-line,
+  .animate-drift {
+    animation: none !important;
+  }
+}
+
+@media (max-width: 640px) {
+  html {
+    scroll-padding-top: 76px;
+  }
+}

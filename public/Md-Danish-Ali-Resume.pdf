@@ -1,0 +1,78 @@
+%PDF-1.4
+1 0 obj
+<< /Type /Catalog /Pages 2 0 R >>
+endobj
+2 0 obj
+<< /Type /Pages /Kids [3 0 R] /Count 1 >>
+endobj
+3 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 595 842] /Contents 4 0 R /Resources << /Font << /F1 5 0 R /F2 6 0 R >> >> >>
+endobj
+4 0 obj
+<< /Length 4149 >>
+stream
+BT /F2 22 Tf 50 786.0 Td (MD DANISH ALI) Tj ET
+BT /F1 10.5 Tf 50 751.0 Td (Software Engineer | Agentic AI | Web3 | Full-Stack Development) Tj ET
+BT /F1 10 Tf 50 733.1 Td (mddanisha288@gmail.com | +91-6364637752) Tj ET
+BT /F1 10 Tf 50 717.9 Td (github.com/Danish26-dev | linkedin.com/in/md-danish-ali-dev) Tj ET
+BT /F2 11 Tf 50 690.7 Td (SUMMARY) Tj ET
+BT /F1 10 Tf 50 672.2 Td (Computer Science undergraduate and hackathon-winning software engineer focused on Agentic AI, Web3) Tj ET
+BT /F1 10 Tf 50 659.0 Td (and full-stack systems. Experienced in building multi-agent investigation workflows, privacy-aware) Tj ET
+BT /F1 10 Tf 50 645.8 Td (document infrastructure, decentralized applications and API-driven systems.) Tj ET
+BT /F2 11 Tf 50 618.6 Td (EDUCATION) Tj ET
+BT /F2 10.5 Tf 50 600.1 Td (Sambhram Institute of Technology) Tj ET
+BT /F1 10 Tf 50 585.2 Td (Bachelor of Engineering, Computer Science and Engineering | Sep 2023 - Sep 2027 | CGPA 8.3/10) Tj ET
+BT /F1 9.5 Tf 50 569.0 Td (Coursework: Object-Oriented Programming, Databases, Discrete Mathematics, Data Structures and) Tj ET
+BT /F1 9.5 Tf 50 556.5 Td (Algorithms, Operating Systems, Computer Networks, Machine Learning, Data Mining, Advanced Data) Tj ET
+BT /F1 9.5 Tf 50 543.9 Td (Structures and Algorithms, Information Retrieval, Image Processing.) Tj ET
+BT /F2 11 Tf 50 517.4 Td (ACHIEVEMENTS) Tj ET
+BT /F1 10 Tf 50 498.9 Td (3rd Prize, Hedera Track | ETHGlobal Mumbai 2026 | InkLink | USD 1,500) Tj ET
+BT /F1 10 Tf 50 483.7 Td (2nd Runner-Up, FinTech Domain | COLOSSUS 3.0 National Hackathon 2026 | FRAB | INR 15,000) Tj ET
+BT /F1 10 Tf 50 468.5 Td (3rd Place | Smart Horizon International Hackathon 2026 | FRAB | INR 75,000) Tj ET
+BT /F1 10 Tf 50 453.3 Td (1st Place, Automaton.ai Track | Athernex Hackathon | Automaton Nexus | INR 20,000) Tj ET
+BT /F1 10 Tf 50 438.1 Td (Finalist | Cardano Hackathon, India Blockchain Week 2025 | IdentiPI) Tj ET
+BT /F2 11 Tf 50 410.9 Td (FEATURED PROJECTS) Tj ET
+BT /F2 10.5 Tf 50 392.3 Td (FRAB - Fraud Response & Autonomous Backbone) Tj ET
+BT /F1 9.5 Tf 50 377.5 Td (Agentic financial-security platform that investigates suspicious activity and produces evidence, risk) Tj ET
+BT /F1 9.5 Tf 50 364.9 Td (analysis and explainable recommendations. Agents: Supervisor, Watchman, Detective, Jurist, Scribe.) Tj ET
+BT /F1 9.5 Tf 50 352.4 Td (Google ADK, Gemini / Gemma, 0G Private Computer, React, FastAPI, Firestore, GCP Confidential VM.) Tj ET
+BT /F2 10.5 Tf 50 334.9 Td (InkLink) Tj ET
+BT /F1 9.5 Tf 50 320.0 Td (Decentralized, privacy-first printing network built around CROPS principles. Hedera x402 pay-per-use) Tj ET
+BT /F1 9.5 Tf 50 307.5 Td (payments, local AI agents, 0G Private Computer, ESP32-powered physical execution.) Tj ET
+BT /F2 10.5 Tf 50 289.9 Td (Automaton Nexus) Tj ET
+BT /F1 9.5 Tf 50 275.1 Td (Multilingual AI voice-agent platform that automates customer order-confirmation workflows with a) Tj ET
+BT /F1 9.5 Tf 50 262.5 Td (low-latency decision pipeline combining rule-based logic and AI inference.) Tj ET
+BT /F2 10.5 Tf 50 245.0 Td (IdentiPI) Tj ET
+BT /F1 9.5 Tf 50 230.1 Td (Privacy-first decentralized identity platform unifying Verifiable Credentials under a single DID, with) Tj ET
+BT /F1 9.5 Tf 50 217.6 Td (Zero-Knowledge Proof verification.) Tj ET
+BT /F1 9.5 Tf 50 200.0 Td (Additional: Yuktidoot, Odyssey, LactIQ, Klaim, Guruko.) Tj ET
+BT /F2 11 Tf 50 173.5 Td (TECHNICAL SKILLS) Tj ET
+BT /F1 9.5 Tf 50 155.0 Td (Full-stack: MongoDB, Express.js, React.js, Node.js, TypeScript, FastAPI, REST APIs, Firebase, Firestore) Tj ET
+BT /F1 9.5 Tf 50 140.4 Td (Languages: Java, JavaScript, Python) Tj ET
+BT /F1 9.5 Tf 50 125.9 Td (AI & agentic systems: Google ADK, Gemini, Vertex AI, AWS Bedrock, Multi-Agent Orchestration, LLM) Tj ET
+BT /F1 9.5 Tf 50 113.4 Td (Integration, RAG) Tj ET
+BT /F1 9.5 Tf 50 98.8 Td (Blockchain & Web3: Hedera, x402 Payments, 0G Private Computer \(TEE\), Cardano, Aiken, DIDs, Verifiable) Tj ET
+BT /F1 9.5 Tf 50 86.3 Td (Credentials, Zero-Knowledge Proofs) Tj ET
+BT /F1 9.5 Tf 50 71.7 Td (Tools & cloud: Git, GitHub, Docker, Google Cloud Platform, Confidential Computing, ESP32, n8n, Figma) Tj ET
+endstream
+endobj
+5 0 obj
+<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica /Encoding /WinAnsiEncoding >>
+endobj
+6 0 obj
+<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica-Bold /Encoding /WinAnsiEncoding >>
+endobj
+xref
+0 7
+0000000000 65535 f 
+0000000009 00000 n 
+0000000058 00000 n 
+0000000115 00000 n 
+0000000251 00000 n 
+0000004452 00000 n 
+0000004549 00000 n 
+trailer
+<< /Size 7 /Root 1 0 R /Info << /Title (Md Danish Ali - Resume) >> >>
+startxref
+4651
+%%EOF
