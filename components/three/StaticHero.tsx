@@ -15,40 +15,42 @@ export function HeroBackdrop({ sun = "78% 34%" }: { sun?: string }) {
   );
 }
 
-const toPath = (pts: [number, number][]) =>
-  pts.map(([x, y], i) => `${i ? "L" : "M"}${(x * 40 + 200).toFixed(1)} ${(190 - y * 40).toFixed(1)}`).join("") + "Z";
+const X = (x: number) => (x * 36 + 200).toFixed(1);
+const Y = (y: number) => (214 - y * 36).toFixed(1);
+const toPath = (pts: [number, number][]) => pts.map(([x, y], i) => `${i ? "L" : "M"}${X(x)} ${Y(y)}`).join("") + "Z";
 
 /**
- * Flat SVG phoenix built from the same feather specs as the 3D model.
+ * Flat SVG phoenix built from the same feather specs as the 3D model: monochrome cobalt,
+ * layered feathers, one continuous head-and-beak form, no facial details.
  * Shown while WebGL loads, when it is unavailable, or if the scene fails.
  */
 export function PhoenixFallback({ className }: { className?: string }) {
   const specs = buildFeatherSpecs();
-  const body: [number, number][] = [];
-  for (let i = 0; i <= 40; i++) {
-    const t = i / 40;
+  const back = specs.filter((s) => s.pass === 0);
+  const front = specs.filter((s) => s.pass === 1);
+  const body = Array.from({ length: 90 }, (_, i) => {
+    const t = i / 89;
     const [cx, cy] = spinePoint(t);
-    body.push([cx + bodyRadius(t), cy]);
-  }
-  for (let i = 40; i >= 0; i--) {
-    const t = i / 40;
-    const [cx, cy] = spinePoint(t);
-    body.push([cx - bodyRadius(t), cy]);
-  }
+    return { cx, cy, r: bodyRadius(t) };
+  });
+  const shade = (tone: number) => (tone < 0.35 ? "#0B2F9E" : tone < 0.65 ? "#1546D9" : "#5B82F0");
   return (
     <svg viewBox="0 0 400 400" className={className} aria-hidden="true">
-      <defs>
-        <linearGradient id="pf-wing" x1="0" y1="0" x2="0" y2="1">
-          <stop stopColor="#1546D9" stopOpacity="0.55" />
-          <stop offset="1" stopColor="#1546D9" stopOpacity="0.2" />
-        </linearGradient>
-      </defs>
-      {specs.map((s, i) => (
-        <path key={i} d={toPath(featherOutline(s))} fill="url(#pf-wing)" stroke="#1546D9" strokeOpacity="0.25" strokeWidth="0.5" />
-      ))}
-      <path d={toPath(body)} fill="#1546D9" fillOpacity="0.55" />
-      <path d="M187 81 Q164 84 159 103 Q171 96 187 92Z" fill="#F9B318" />
-      <circle cx="191" cy="85" r="2.2" fill="#F9B318" />
+      <g strokeWidth="0.5" stroke="#0B2F9E" strokeOpacity="0.45" fillOpacity="0.9">
+        {back.map((s, i) => (
+          <path key={i} d={toPath(featherOutline(s))} fill={shade(s.tone)} />
+        ))}
+      </g>
+      <g fill="#1546D9" fillOpacity="0.95">
+        {body.map((c, i) => (
+          <circle key={i} cx={X(c.cx)} cy={Y(c.cy)} r={(c.r * 36).toFixed(1)} />
+        ))}
+      </g>
+      <g strokeWidth="0.5" stroke="#0B2F9E" strokeOpacity="0.45" fillOpacity="0.92">
+        {front.map((s, i) => (
+          <path key={i} d={toPath(featherOutline(s))} fill={shade(s.tone)} />
+        ))}
+      </g>
     </svg>
   );
 }

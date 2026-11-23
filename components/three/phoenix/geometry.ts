@@ -10,8 +10,8 @@ import {
 } from "./model";
 
 /** Segments along / across each feather strip. */
-const NU = 14;
-const NV = 4;
+const NU = 16;
+const NV = 6;
 
 export const bodyCurve = new THREE.CatmullRomCurve3(
   SPINE.map((p) => new THREE.Vector3(...p)),
@@ -20,13 +20,18 @@ export const bodyCurve = new THREE.CatmullRomCurve3(
   0.5
 );
 
-/** One merged geometry holding every feather as a curved, tapered strip. */
-export function buildFeatherGeometry() {
-  const specs = buildFeatherSpecs();
+/**
+ * Feathers as curved, tapered strips merged into one geometry per pass.
+ * Pass 0 sits behind the body (wings, tail); pass 1 in front of it (plumage, crest).
+ * Triangles are emitted in spec order, which is also the painting order: deeper rows first.
+ */
+export function buildFeatherGeometry(pass: 0 | 1) {
+  const specs = buildFeatherSpecs().filter((s) => s.pass === pass);
   const per = (NU + 1) * (NV + 1);
   const pos = new Float32Array(specs.length * per * 3);
   const fuv = new Float32Array(specs.length * per * 2);
   const info = new Float32Array(specs.length * per * 4);
+  const tone = new Float32Array(specs.length * per);
   const index: number[] = [];
 
   specs.forEach((s, si) => {
@@ -43,6 +48,7 @@ export function buildFeatherGeometry() {
         info[k * 4 + 1] = wingArm(p[0], p[1], s.side);
         info[k * 4 + 2] = s.group;
         info[k * 4 + 3] = s.seed;
+        tone[k] = s.tone;
       }
     }
     for (let iu = 0; iu < NU; iu++) {
@@ -60,25 +66,42 @@ export function buildFeatherGeometry() {
   g.setAttribute("position", new THREE.BufferAttribute(pos, 3));
   g.setAttribute("aFuv", new THREE.BufferAttribute(fuv, 2));
   g.setAttribute("aInfo", new THREE.BufferAttribute(info, 4));
+  g.setAttribute("aTone", new THREE.BufferAttribute(tone, 1));
   g.setIndex(index);
   return g;
 }
 
-/** Lathe-style body: head, S-curved neck, chest, belly. Offsets stay in the x/z plane. */
+/**
+ * One continuous loft: needle beak, small refined head, long S-curved neck, chest, belly.
+ * Cross-sections are oriented against the spine (not fixed to an axis), so the head and
+ * beak are properly shaped even though they run horizontally.
+ */
 export function buildBodyGeometry() {
-  const segs = 72;
-  const ring = 22;
+  const segs = 160;
+  const ring = 32;
+  const flat = 0.82; // depth / width ratio
+  const z = new THREE.Vector3(0, 0, 1);
   const pos: number[] = [];
+  const nor: number[] = [];
   const at: number[] = [];
+  const ang: number[] = [];
   const index: number[] = [];
+
   for (let i = 0; i <= segs; i++) {
     const t = i / segs;
     const c = bodyCurve.getPointAt(t);
+    const T = bodyCurve.getTangentAt(t);
+    const n = new THREE.Vector3(-T.y, T.x, 0).normalize();
     const r = bodyRadius(t);
     for (let j = 0; j <= ring; j++) {
       const a = (j / ring) * Math.PI * 2;
-      pos.push(c.x + Math.cos(a) * r, c.y, c.z + Math.sin(a) * r * 0.82);
+      const ca = Math.cos(a);
+      const sa = Math.sin(a);
+      pos.push(c.x + n.x * ca * r, c.y + n.y * ca * r, c.z + sa * r * flat);
+      const o = n.clone().multiplyScalar(ca).addScaledVector(z, sa / flat).normalize();
+      nor.push(o.x, o.y, o.z);
       at.push(t);
+      ang.push(j / ring);
     }
   }
   for (let i = 0; i < segs; i++) {
@@ -92,67 +115,25 @@ export function buildBodyGeometry() {
   }
   const g = new THREE.BufferGeometry();
   g.setAttribute("position", new THREE.Float32BufferAttribute(pos, 3));
+  g.setAttribute("normal", new THREE.Float32BufferAttribute(nor, 3));
   g.setAttribute("aT", new THREE.Float32BufferAttribute(at, 1));
+  g.setAttribute("aA", new THREE.Float32BufferAttribute(ang, 1));
   g.setIndex(index);
-  g.computeVertexNormals();
   return g;
 }
 
-/** Hooked beak: a tapered tube from the face, pointing left and slightly down. */
-export function buildBeakGeometry() {
-  const curve = new THREE.CatmullRomCurve3([
-    new THREE.Vector3(-0.28, 2.6, 0),
-    new THREE.Vector3(-0.58, 2.53, 0),
-    new THREE.Vector3(-0.86, 2.4, 0),
-    new THREE.Vector3(-1.0, 2.22, 0),
-  ]);
-  const segs = 28;
-  const ring = 14;
-  const pos: number[] = [];
-  const at: number[] = [];
-  const index: number[] = [];
-  for (let i = 0; i <= segs; i++) {
-    const t = i / segs;
-    const c = curve.getPointAt(t);
-    const T = curve.getTangentAt(t);
-    const n = new THREE.Vector3(-T.y, T.x, 0).normalize();
-    const r = 0.14 * Math.pow(1 - t, 0.9) + 0.004;
-    for (let j = 0; j <= ring; j++) {
-      const a = (j / ring) * Math.PI * 2;
-      const ca = Math.cos(a) * r * 0.78;
-      pos.push(c.x + n.x * ca, c.y + n.y * ca, c.z + Math.sin(a) * r);
-      at.push(t);
-    }
-  }
-  for (let i = 0; i < segs; i++) {
-    for (let j = 0; j < ring; j++) {
-      const a = i * (ring + 1) + j;
-      const b = a + 1;
-      const c = a + (ring + 1);
-      const d = c + 1;
-      index.push(a, c, b, b, c, d);
-    }
-  }
-  const g = new THREE.BufferGeometry();
-  g.setAttribute("position", new THREE.Float32BufferAttribute(pos, 3));
-  g.setAttribute("aT", new THREE.Float32BufferAttribute(at, 1));
-  g.setIndex(index);
-  g.computeVertexNormals();
-  return g;
-}
-
-/** Flat water ribbons that spiral up around the body. */
+/** Two faint water ribbons that spiral up the bird and stream off the tail. */
 export function buildRibbonGeometry(i: number) {
-  const N = 110;
+  const N = 120;
   const pos: number[] = [];
   const at: number[] = [];
   const side: number[] = [];
   const index: number[] = [];
-  const phi0 = i * 2.1;
+  const phi0 = i * 2.6;
   const P = (t: number) => {
-    const y = -3.1 + t * 5.4;
-    const ang = phi0 + t * Math.PI * 2 * 1.35;
-    const rad = 0.72 + 0.6 * Math.sin(Math.PI * t) + i * 0.11;
+    const y = -4.2 + t * 6.6;
+    const ang = phi0 + t * Math.PI * 2 * 1.25;
+    const rad = 0.85 + 0.75 * Math.sin(Math.PI * t) + i * 0.14;
     return new THREE.Vector3(Math.cos(ang) * rad, y, Math.sin(ang) * rad * 0.8);
   };
   for (let k = 0; k < N; k++) {
@@ -162,7 +143,7 @@ export function buildRibbonGeometry(i: number) {
     const tan = q.clone().sub(p).normalize();
     const radial = new THREE.Vector3(p.x, 0, p.z).normalize();
     const w = new THREE.Vector3().crossVectors(tan, radial).normalize();
-    const half = 0.09 * Math.pow(Math.sin(Math.PI * t), 0.6) + 0.004;
+    const half = 0.07 * Math.pow(Math.sin(Math.PI * t), 0.6) + 0.004;
     for (const s of [-1, 1]) {
       pos.push(p.x + w.x * half * s, p.y + w.y * half * s, p.z + w.z * half * s);
       at.push(t);
@@ -182,8 +163,10 @@ export function buildRibbonGeometry(i: number) {
 }
 
 /**
- * Water droplets. Each one sits on a feather or the body so it follows the wing motion,
- * and carries random seeds that drive drifting, gathering and dispersal in the shader.
+ * Water droplets, in two groups (decided by aSeed.y in the shader):
+ *  - ambient (28%): a faint, permanent drift off the feather tips
+ *  - transition (72%): only visible while the bird gathers or dissolves
+ * Every droplet sits on a feather or the body, so it follows the wing motion.
  */
 export function buildParticleGeometry(count: number) {
   const specs = buildFeatherSpecs();
@@ -197,11 +180,12 @@ export function buildParticleGeometry(count: number) {
   const info = new Float32Array(count * 4); // side, arm, group, u
   const seed = new Float32Array(count * 4);
   const scatter = new Float32Array(count * 3);
-  const bodyShare = 0.16;
 
   for (let i = 0; i < count; i++) {
+    const sy = r();
+    const ambient = sy < 0.28;
     let x: number, y: number, z: number, side = 0, arm = 0, group = 5, u = 0.5;
-    if (r() < bodyShare) {
+    if (!ambient && r() < 0.16) {
       const t = Math.pow(r(), 0.9);
       const c = bodyCurve.getPointAt(t);
       const a = r() * Math.PI * 2;
@@ -215,8 +199,8 @@ export function buildParticleGeometry(count: number) {
       let si = cum.findIndex((c) => c >= pick);
       if (si < 0) si = specs.length - 1;
       const s = specs[si];
-      u = Math.pow(r(), 0.85);
-      const v = (r() < 0.25 ? 0 : (r() * 2 - 1)) * 0.92;
+      u = ambient ? 0.55 + 0.45 * r() : Math.pow(r(), 0.85);
+      const v = (r() < 0.25 ? 0 : r() * 2 - 1) * 0.92;
       const p = featherPoint(s, u, v);
       x = p[0];
       y = p[1];
@@ -227,9 +211,9 @@ export function buildParticleGeometry(count: number) {
     }
     pos.set([x, y, z], i * 3);
     info.set([side, arm, group, u], i * 4);
-    seed.set([r(), r(), r(), r()], i * 4);
+    seed.set([r(), sy, r(), r()], i * 4);
     // Start from a pool of water below the bird.
-    scatter.set([(r() - 0.5) * 11, -3.6 - r() * 1.6, (r() - 0.5) * 4], i * 3);
+    scatter.set([(r() - 0.5) * 13, -4.4 - r() * 1.6, (r() - 0.5) * 4], i * 3);
   }
 
   const g = new THREE.BufferGeometry();

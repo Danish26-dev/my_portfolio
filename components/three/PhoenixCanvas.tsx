@@ -7,7 +7,6 @@ import { useEffect, useMemo, useRef, useState, type MutableRefObject } from "rea
 import * as THREE from "three";
 import type { PointerState } from "@/hooks/usePointer";
 import {
-  buildBeakGeometry,
   buildBodyGeometry,
   buildFeatherGeometry,
   buildParticleGeometry,
@@ -50,8 +49,6 @@ function World({ mode, progress, pointer, tier, reduced }: Props) {
   const clock = useRef(reduced ? 14 : 0);
   const placed = useRef(false);
   const ptr = useRef({ x: 0, y: 0 });
-  const eyeA = useRef<THREE.Mesh>(null);
-  const eyeB = useRef<THREE.Mesh>(null);
 
   /** One uniform bag shared by every material, so a single update drives all layers. */
   const U = useMemo(
@@ -64,7 +61,7 @@ function World({ mode, progress, pointer, tier, reduced }: Props) {
       uOpacity: { value: 1 },
       uPointer: { value: new THREE.Vector2(99, 99) },
       uPointerOn: { value: 0 },
-      uSize: { value: low ? 3.8 : 3.1 },
+      uSize: { value: low ? 2.9 : 2.3 },
       uPixelRatio: { value: 1 },
       uWater: { value: 1 },
     }),
@@ -86,11 +83,7 @@ function World({ mode, progress, pointer, tier, reduced }: Props) {
   );
   const particleU = useMemo(() => ({ ...featherU, uSize: U.uSize, uPixelRatio: U.uPixelRatio }), [featherU, U]);
   const bodyU = useMemo(
-    () => ({ uTime: U.uTime, uForm: U.uForm, uDisperse: U.uDisperse, uOpacity: U.uOpacity, uGold: { value: 0 } }),
-    [U]
-  );
-  const beakU = useMemo(
-    () => ({ uTime: U.uTime, uForm: U.uForm, uDisperse: U.uDisperse, uOpacity: U.uOpacity, uGold: { value: 1 } }),
+    () => ({ uTime: U.uTime, uForm: U.uForm, uDisperse: U.uDisperse, uOpacity: U.uOpacity }),
     [U]
   );
   const ribbonU = useMemo(
@@ -101,19 +94,19 @@ function World({ mode, progress, pointer, tier, reduced }: Props) {
 
   const geo = useMemo(
     () => ({
-      feathers: buildFeatherGeometry(),
+      back: buildFeatherGeometry(0),
+      front: buildFeatherGeometry(1),
       body: buildBodyGeometry(),
-      beak: buildBeakGeometry(),
-      ribbons: [0, 1, 2].map((i) => buildRibbonGeometry(i)),
-      particles: buildParticleGeometry(low ? 3400 : 7800),
+      ribbons: [0, 1].map((i) => buildRibbonGeometry(i)),
+      particles: buildParticleGeometry(low ? 2200 : 5400),
     }),
     [low]
   );
   useEffect(
     () => () => {
-      geo.feathers.dispose();
+      geo.back.dispose();
+      geo.front.dispose();
       geo.body.dispose();
-      geo.beak.dispose();
       geo.ribbons.forEach((g) => g.dispose());
       geo.particles.dispose();
     },
@@ -156,11 +149,6 @@ function World({ mode, progress, pointer, tier, reduced }: Props) {
     U.uDisperse.value = disperse;
     U.uWater.value = water;
     U.uFlap.value = (reduced ? 0.5 : 1) * (1 - disperse * 0.5);
-    // the eye appears once the head has formed and goes with the bird
-    const eyeO = smooth(0.4, 0.8, form) * (1 - smooth(0.3, 0.7, disperse));
-    [eyeA.current, eyeB.current].forEach((m) => {
-      if (m) (m.material as THREE.MeshBasicMaterial).opacity = eyeO;
-    });
     U.uPixelRatio.value = gl.getPixelRatio();
 
     // ---- placement ----
@@ -174,22 +162,22 @@ function World({ mode, progress, pointer, tier, reduced }: Props) {
       if (narrow) {
         // Sized in screen pixels so it stays above the copy even when the mobile hero is taller than the screen.
         const wpp = vh / size.height; // world units per pixel
-        s = Math.min((vw * 0.95) / 7.8, (330 * wpp) / 8);
+        s = Math.min((vw * 0.95) / 10, (330 * wpp) / 9.2);
         x = 0;
         y = vh / 2 - 205 * wpp;
       } else {
-        s = Math.min((vw * 0.5) / 7.8, (vh * 0.88) / 8, 0.9);
-        x = vw * 0.225;
+        s = Math.min((vw * 0.44) / 10, (vh * 0.88) / 9.2, 0.9);
+        x = vw * 0.232;
         y = -0.1;
       }
       y += p * 0.6;
       s *= 1 + p * 0.08;
     } else if (narrow) {
-      s = Math.min((vw * 0.92) / 7.8, (vh * 0.6) / 8);
+      s = Math.min((vw * 0.92) / 10, (vh * 0.6) / 9.2);
       x = 0;
       y = 0.2;
     } else {
-      s = Math.min((vw * 0.5) / 7.8, (vh * 0.88) / 8, 0.95);
+      s = Math.min((vw * 0.5) / 10, (vh * 0.88) / 9.2, 0.95);
       x = 0;
       y = 0.1;
     }
@@ -245,29 +233,32 @@ function World({ mode, progress, pointer, tier, reduced }: Props) {
             />
           </mesh>
         ))}
-        <mesh geometry={geo.body} renderOrder={2} frustumCulled={false}>
+        {/* behind the body: wings and tail */}
+        <mesh geometry={geo.back} renderOrder={2} frustumCulled={false}>
+          <shaderMaterial
+            vertexShader={featherVertex}
+            fragmentShader={featherFragment}
+            uniforms={featherU}
+            transparent
+            depthTest={false}
+            depthWrite={false}
+            side={THREE.DoubleSide}
+          />
+        </mesh>
+        {/* one lofted form: beak, head, neck, chest */}
+        <mesh geometry={geo.body} renderOrder={3} frustumCulled={false}>
           <shaderMaterial
             vertexShader={bodyVertex}
             fragmentShader={bodyFragment}
             uniforms={bodyU}
             transparent
-            depthTest={false}
-            depthWrite={false}
+            depthTest
+            depthWrite
             side={THREE.DoubleSide}
           />
         </mesh>
-        <mesh geometry={geo.beak} renderOrder={3} frustumCulled={false}>
-          <shaderMaterial
-            vertexShader={bodyVertex}
-            fragmentShader={bodyFragment}
-            uniforms={beakU}
-            transparent
-            depthTest={false}
-            depthWrite={false}
-            side={THREE.DoubleSide}
-          />
-        </mesh>
-        <mesh geometry={geo.feathers} renderOrder={4} frustumCulled={false}>
+        {/* in front of the body: breast and neck plumage, crest */}
+        <mesh geometry={geo.front} renderOrder={4} frustumCulled={false}>
           <shaderMaterial
             vertexShader={featherVertex}
             fragmentShader={featherFragment}
@@ -287,17 +278,7 @@ function World({ mode, progress, pointer, tier, reduced }: Props) {
             depthTest={false}
             depthWrite={false}
           />
-        </points>
-        {/* eye */}
-        <mesh ref={eyeA} position={[-0.22, 2.62, 0.26]} renderOrder={6}>
-          <sphereGeometry args={[0.05, 16, 16]} />
-          <meshBasicMaterial color="#F9B318" transparent opacity={0} depthTest={false} />
-        </mesh>
-        <mesh ref={eyeB} position={[-0.235, 2.62, 0.3]} renderOrder={7}>
-          <sphereGeometry args={[0.022, 12, 12]} />
-          <meshBasicMaterial color="#111827" transparent opacity={0} depthTest={false} />
-        </mesh>
-      </group>
+        </points>      </group>
     </>
   );
 }
