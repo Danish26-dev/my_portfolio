@@ -17,7 +17,7 @@ export default function OpengraphImage() {
           flexDirection: "column",
           justifyContent: "center",
           padding: 80,
-          color: "#0F172A",
+          color: "#111827",
           background:
             "radial-gradient(circle at 84% 24%, rgba(21,70,217,0.28), transparent 46%), radial-gradient(circle at 96% 92%, rgba(249,179,24,0.5), transparent 40%), #EDECE6",
         }}
@@ -29,8 +29,8 @@ export default function OpengraphImage() {
           MD DANISH ALI
         </div>
         <div style={{ width: 120, height: 8, background: "#F9B318", marginTop: 28, display: "flex" }} />
-        <div style={{ fontSize: 32, color: "#1E293B", marginTop: 28, maxWidth: 900, display: "flex" }}>
-          Building intelligent systems at the edge of what&apos;s possible.
+        <div style={{ fontSize: 32, color: "#111827", marginTop: 28, maxWidth: 900, display: "flex" }}>
+          I build systems where intelligent agents, decentralized infrastructure and software engineering meet.
         </div>
       </div>
     ),

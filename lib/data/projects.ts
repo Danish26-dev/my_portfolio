@@ -102,7 +102,7 @@ export const projects: Project[] = [
     fullName: "Fraud Response & Autonomous Backbone",
     tagline: "Agents that investigate fraud alerts before an analyst has to.",
     description:
-      "An agentic financial-security platform that proactively investigates suspicious activity and transforms alerts into evidence, risk analysis and explainable recommendations.",
+      "A financial-security platform that turns suspicious activity into structured investigations, evidence and explainable recommendations.",
     category: "Agentic AI | FinTech | Financial Security",
     filters: ["Agentic AI", "FinTech"],
     status: "Hackathon project",
@@ -128,7 +128,7 @@ export const projects: Project[] = [
       "gcp",
       "confidential-computing",
     ],
-    links: {},
+    links: { github: "https://github.com/Danish26-dev/frabs_colossus3.0" },
     visual: "frab",
     caseStudy: {
       overview: [
@@ -171,7 +171,7 @@ export const projects: Project[] = [
             row: 0,
             kind: "agent",
             detail:
-              "One of the five agents in the FRAB team. Its detailed responsibilities should be documented here by the project author.",
+              "Detection. The first stage of the multi-agent workflow, where suspicious activity is picked up.",
           },
           {
             id: "detective",
@@ -180,7 +180,7 @@ export const projects: Project[] = [
             row: 1,
             kind: "agent",
             detail:
-              "Investigation agent. FRAB's investigations are evidence-based, so evidence gathering sits at the centre of this workflow.",
+              "Investigation. Evidence is gathered here, so every conclusion further down the workflow has something to point back to.",
           },
           {
             id: "jurist",
@@ -189,7 +189,7 @@ export const projects: Project[] = [
             row: 2,
             kind: "agent",
             detail:
-              "Agent in the investigation team. Recommendations from FRAB are explainable, so reasoning is surfaced alongside the verdict.",
+              "Compliance analysis. The stage that checks the case against compliance concerns before anything is recommended.",
           },
           {
             id: "scribe",
@@ -198,7 +198,7 @@ export const projects: Project[] = [
             row: 1,
             kind: "agent",
             detail:
-              "Records the outcome. Alerts become evidence, risk analysis and explainable recommendations that an analyst can read.",
+              "Reporting. Turns the investigation into evidence, risk analysis and explainable recommendations an analyst can read.",
           },
           {
             id: "tee",
@@ -227,9 +227,11 @@ export const projects: Project[] = [
         { label: "Application", items: ["React", "FastAPI", "Firestore"] },
       ],
       contributions: {
-        items: [],
-        pending:
-          "Describe your personal contributions to FRAB here (for example: which agents you designed, which services you owned, what you shipped during the hackathon).",
+        items: [
+          "Built an agentic financial-security platform that proactively investigates suspicious activity and turns alerts into evidence, risk analysis and explainable recommendations.",
+          "Designed a multi-agent workflow (Supervisor, Watchman, Detective, Jurist, Scribe) for detection, investigation, compliance analysis and reporting, backed by deterministic risk intelligence.",
+          "Ran TEE-backed private inference on 0G Private Computer. Implemented with Google ADK, Gemini/Gemma, React, FastAPI, Firestore and GCP Confidential VM.",
+        ],
       },
       decisions: [
         {
@@ -266,7 +268,7 @@ export const projects: Project[] = [
     name: "InkLink",
     tagline: "Private printing, paid per use, executed on real hardware.",
     description:
-      "A decentralized, privacy-first printing network built around CROPS principles, connecting customers with local print shops through secure document processing.",
+      "A privacy-first decentralized printing network connecting customers and local print providers through secure document processing and autonomous pay-per-use payments.",
     category: "Web3 | Hedera | Decentralized Infrastructure",
     filters: ["Web3"],
     status: "Hackathon project",
@@ -280,7 +282,7 @@ export const projects: Project[] = [
       "ESP32",
     ],
     skills: ["hedera", "x402", "0g-tee", "esp32"],
-    links: {},
+    links: { github: "https://github.com/Danish26-dev/InkLink-ethglobal_mumbai" },
     visual: "inklink",
     caseStudy: {
       overview: [
@@ -366,9 +368,11 @@ export const projects: Project[] = [
         { label: "Hardware", items: ["ESP32"] },
       ],
       contributions: {
-        items: [],
-        pending:
-          "Describe your personal contributions to InkLink (for example: the x402 integration, the ESP32 firmware, the agent workflow).",
+        items: [
+          "Built a decentralized, privacy-first printing network on CROPS principles, connecting customers with local print shops through secure document processing.",
+          "Integrated Hedera x402 for autonomous, pay-per-use payments between customers and print providers.",
+          "Combined local AI agents, 0G Private Computer and ESP32-powered physical execution for private, automated print jobs.",
+        ],
       },
       decisions: [
         {
@@ -404,7 +408,7 @@ export const projects: Project[] = [
     name: "Automaton Nexus",
     tagline: "Multilingual voice agents that confirm orders at scale.",
     description:
-      "A multilingual AI voice-agent platform designed to automate customer order-confirmation workflows.",
+      "A multilingual voice-agent system designed to automate customer order-confirmation workflows through a low-latency decision pipeline.",
     category: "AI | Voice Agents | Automation",
     filters: ["AI & Automation", "Agentic AI"],
     status: "Hackathon project",
@@ -417,7 +421,7 @@ export const projects: Project[] = [
       "Modular backend",
     ],
     skills: [],
-    links: {},
+    links: { github: "https://github.com/GonchiJoshnaVardhanReddy/automaton-nexus" },
     visual: "automaton",
     caseStudy: {
       overview: [
@@ -507,9 +511,11 @@ export const projects: Project[] = [
         { label: "Platform", items: ["Modular backend", "Campaign execution", "Monitoring"] },
       ],
       contributions: {
-        items: [],
-        pending:
-          "Describe your contributions to Automaton Nexus and list the concrete tools used (telephony, speech, LLM provider, backend framework).",
+        items: [
+          "Built a multilingual AI voice agent to automate customer order-confirmation workflows.",
+          "Designed a low-latency decision pipeline combining rule-based logic with AI inference.",
+          "Developed a modular backend enabling scalable campaign execution and monitoring.",
+        ],
       },
       decisions: [
         {
@@ -541,7 +547,7 @@ export const projects: Project[] = [
     name: "IdentiPI",
     tagline: "One identifier. Many credentials. Proof without disclosure.",
     description:
-      "A privacy-first decentralized identity platform that unifies Verifiable Credentials under a single Decentralized Identifier.",
+      "A privacy-first identity system using DIDs, Verifiable Credentials and Zero-Knowledge Proofs to enable verification without unnecessary exposure of personal information.",
     category: "Web3 | Decentralized Identity | ZKP",
     filters: ["Web3"],
     status: "Hackathon project",
@@ -554,7 +560,7 @@ export const projects: Project[] = [
       "Smart contracts",
     ],
     skills: ["dids", "vcs", "zkp", "cardano"],
-    links: {},
+    links: { github: "https://github.com/Danish26-dev/IdentiPI" },
     visual: "identipi",
     caseStudy: {
       overview: [
@@ -628,9 +634,11 @@ export const projects: Project[] = [
         { label: "Chain", items: ["Cardano", "Smart contracts"] },
       ],
       contributions: {
-        items: [],
-        pending:
-          "Describe your contributions to IdentiPI and list the exact contracts, ZKP tooling and frontend stack used.",
+        items: [
+          "Built a privacy-first decentralized identity platform that unifies Verifiable Credentials under a single DID.",
+          "Enabled Zero-Knowledge Proof verification so users can prove claims without exposing sensitive personal data.",
+          "Developed full-stack verification flows and smart contract interaction models for user-controlled access.",
+        ],
       },
       decisions: [
         {

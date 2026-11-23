@@ -1,109 +1,47 @@
 "use client";
 
-import { AnimatePresence, motion } from "framer-motion";
-import { ChevronDown } from "lucide-react";
-import { useId, useState } from "react";
-import { SectionHeading } from "@/components/ui/SectionHeading";
+import { motion } from "framer-motion";
+import { useState } from "react";
 import { Reveal } from "@/components/ui/Reveal";
-import { FeaturedProject } from "./FeaturedProject";
-import {
-  additionalProjects,
-  featuredProjects,
-  projectFilters,
-  type Project,
-  type ProjectFilter,
-} from "@/lib/data/projects";
-import { cn, easeOutExpo } from "@/lib/utils";
+import { SectionHeading } from "@/components/ui/SectionHeading";
+import { featuredProjects, projectFilters, type Project, type ProjectFilter } from "@/lib/data/projects";
+import { cn } from "@/lib/utils";
+import { AutomatonViz } from "./projects/AutomatonViz";
+import { FrabViz } from "./projects/FrabViz";
+import { IdentipiViz } from "./projects/IdentipiViz";
+import { InkLinkViz } from "./projects/InkLinkViz";
+import { ProjectText } from "./projects/ProjectText";
 
-function AdditionalRow({ project }: { project: Project }) {
-  const [open, setOpen] = useState(false);
-  const panelId = useId();
-  return (
-    <motion.li
-      layout
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      exit={{ opacity: 0 }}
-      className="border-b hairline"
-    >
-      <button
-        type="button"
-        aria-expanded={open}
-        aria-controls={panelId}
-        onClick={() => setOpen((o) => !o)}
-        className="group flex w-full items-center gap-4 py-5 text-left sm:gap-8"
-      >
-        <span className="w-8 font-mono text-[11px] text-muted/75">{project.index}</span>
-        <span className="flex-1">
-          <span className="block font-display text-2xl font-semibold uppercase tracking-tight transition-colors group-hover:text-primary sm:text-3xl">
-            {project.name}
-          </span>
-          <span className="mt-1 block text-sm text-muted/75">{project.tagline}</span>
-        </span>
-        <span className="hidden gap-2 sm:flex">
-          {project.filters.map((f) => (
-            <span key={f} className="tag">
-              {f}
-            </span>
-          ))}
-        </span>
-        <ChevronDown
-          size={18}
-          className={cn("shrink-0 text-primary transition-transform duration-500", open && "rotate-180")}
-        />
-      </button>
-      <AnimatePresence initial={false}>
-        {open && (
-          <motion.div
-            id={panelId}
-            initial={{ height: 0, opacity: 0 }}
-            animate={{ height: "auto", opacity: 1 }}
-            exit={{ height: 0, opacity: 0 }}
-            transition={{ duration: 0.5, ease: easeOutExpo }}
-            className="overflow-hidden"
-          >
-            <div className="grid gap-6 pb-7 pl-0 sm:pl-16 md:grid-cols-2">
-              <div>
-                <p className="eyebrow">Overview</p>
-                <p className="mt-3 text-ink/85">{project.description}</p>
-                <p className="mt-4 flex flex-wrap gap-2">
-                  <span className="tag">{project.category}</span>
-                  <span className="tag">{project.status}</span>
-                </p>
-              </div>
-              <div className="border border-dashed border-muted/40 p-4">
-                <p className="font-mono text-[10.5px] uppercase tracking-[0.2em] text-muted/75">
-                  To complete
-                </p>
-                <p className="mt-2 text-sm text-muted/75">
-                  Stack, status, achievements and links have not been provided yet. Add them in{" "}
-                  <code className="text-primary">lib/data/projects.ts</code> and this card will update
-                  automatically.
-                </p>
-              </div>
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
-    </motion.li>
-  );
-}
+const get = (slug: string) => featuredProjects.find((p) => p.slug === slug)!;
 
+/**
+ * Chapter 03. Four projects, four layouts: each one is presented the way its system actually works.
+ * The filter spotlights a domain by dimming the rest, so the page never reflows under the reader.
+ */
 export function Projects() {
   const [filter, setFilter] = useState<ProjectFilter | "All">("All");
-  const match = (p: Project) => filter === "All" || p.filters.includes(filter);
-  const featured = featuredProjects.filter(match);
-  const more = additionalProjects.filter(match);
+  const dim = (p: Project) => (filter === "All" || p.filters.includes(filter) ? "" : "opacity-[0.22] saturate-50");
+  const frab = get("frab");
+  const ink = get("inklink");
+  const auto = get("automaton-nexus");
+  const idp = get("identipi");
 
   return (
     <section id="projects" aria-labelledby="projects-title" className="section">
       <div className="container-page">
-        <SectionHeading index="02" eyebrow="Selected work" lines={["Systems", "I've shipped."]} id="projects-title">
-          Four featured builds with full case studies, and five more projects from the workshop.
+        <SectionHeading
+          index="03"
+          eyebrow="Built, tested and shipped"
+          lines={["Ideas are easy.", "*Engineering the system* is the work."]}
+          id="projects-title"
+        >
+          Four builds from the last two hackathon seasons. Each is shown the way it works: pick an agent, switch a flow, watch a
+          pipeline run.
         </SectionHeading>
 
         <Reveal>
-          <div role="group" aria-label="Filter projects by domain" className="mb-12 flex flex-wrap gap-2">
+          <div role="group" aria-label="Spotlight projects by domain" className="mb-16 flex flex-wrap items-center gap-2 sm:mb-24">
+            <span className="mr-2 font-mono text-[10.5px] uppercase tracking-[0.2em] text-muted">Spotlight</span>
             {(["All", ...projectFilters] as const).map((f) => (
               <button
                 key={f}
@@ -111,49 +49,76 @@ export function Projects() {
                 aria-pressed={filter === f}
                 onClick={() => setFilter(f)}
                 className={cn(
-                  "relative isolate px-4 py-2.5 font-mono text-[11px] uppercase tracking-[0.16em] transition-colors",
-                  filter === f ? "text-paper" : "text-muted/75 hover:text-ink"
+                  "relative isolate px-4 py-2.5 font-mono text-[11px] font-medium uppercase tracking-[0.16em] transition-colors",
+                  filter === f ? "text-paper" : "text-muted hover:text-ink"
                 )}
               >
                 {filter === f && (
-                  <motion.span
-                    layoutId="filter-pill"
-                    className="absolute inset-0 -z-10 bg-primary"
-                    transition={{ type: "spring", stiffness: 420, damping: 34 }}
-                  />
+                  <motion.span layoutId="filter-pill" className="absolute inset-0 -z-10 bg-primary" transition={{ type: "spring", stiffness: 420, damping: 34 }} />
                 )}
-                <span className={cn(filter !== f && "border-b border-transparent")}>{f}</span>
+                {f}
               </button>
             ))}
           </div>
         </Reveal>
+      </div>
 
-        <div className="space-y-8">
-          <AnimatePresence>
-            {featured.map((p, i) => (
-              <FeaturedProject key={p.slug} project={p} flip={i % 2 === 1} />
-            ))}
-          </AnimatePresence>
-        </div>
+      <div className="space-y-24 sm:space-y-36">
+        {/* 01 — FRAB: wide interactive architecture */}
+        <Reveal>
+          <article className={cn("container-page grid items-center gap-10 transition-all duration-500 lg:grid-cols-12 lg:gap-14", dim(frab))} aria-label={frab.name}>
+            <div className="glass relative p-5 sm:p-8 lg:col-span-7">
+              <span className="absolute -top-3 left-6 bg-paper px-2 font-mono text-[10px] uppercase tracking-[0.2em] text-primary">Interactive · pick an agent</span>
+              <FrabViz />
+            </div>
+            <ProjectText project={frab} className="lg:col-span-5" />
+          </article>
+        </Reveal>
 
-        {more.length > 0 && (
-          <div className="mt-20">
-            <Reveal>
-              <h3 className="eyebrow">More projects</h3>
-            </Reveal>
-            <ul className="mt-6 border-t hairline">
-              <AnimatePresence>
-                {more.map((p) => (
-                  <AdditionalRow key={p.slug} project={p} />
-                ))}
-              </AnimatePresence>
-            </ul>
-          </div>
-        )}
+        {/* 02 — InkLink: narrow story, oversized network, outlined wordmark */}
+        <Reveal className="relative">
+         <div className={cn("transition-all duration-500", dim(ink))}>
+          <span aria-hidden="true" className="text-outline pointer-events-none absolute -top-32 left-0 hidden select-none whitespace-nowrap font-display text-[clamp(7rem,17vw,15rem)] font-semibold uppercase leading-none opacity-30 md:block">
+            InkLink
+          </span>
+          <article className="container-page relative grid items-center gap-10 lg:grid-cols-12 lg:gap-14" aria-label={ink.name}>
+            <ProjectText project={ink} className="lg:col-span-5 lg:pt-10" />
+            <div className="glass relative p-5 sm:p-8 lg:col-span-7 lg:translate-y-10">
+              <span className="absolute -top-3 right-6 bg-paper px-2 font-mono text-[10px] uppercase tracking-[0.2em] text-primary">Interactive · switch the flow</span>
+              <InkLinkViz />
+            </div>
+          </article>
+         </div>
+        </Reveal>
 
-        {featured.length === 0 && more.length === 0 && (
-          <p className="text-muted/75">No projects match this filter yet.</p>
-        )}
+        {/* 03 — Automaton Nexus: full-bleed cobalt band */}
+        <Reveal>
+          <article className={cn("relative overflow-hidden bg-primary py-20 transition-all duration-500 sm:py-28", dim(auto))} aria-label={auto.name}>
+            <div className="absolute inset-0 opacity-[0.12] [background-image:linear-gradient(to_right,#fff_1px,transparent_1px),linear-gradient(to_bottom,#fff_1px,transparent_1px)] [background-size:64px_64px]" aria-hidden="true" />
+            <div className="absolute -right-24 -top-24 h-72 w-72 rounded-full bg-accent/90 blur-[2px]" aria-hidden="true" />
+            <div className="container-page relative grid items-center gap-12 lg:grid-cols-12 lg:gap-16">
+              <ProjectText project={auto} onBlue className="lg:col-span-5" />
+              <div className="lg:col-span-7">
+                <AutomatonViz />
+              </div>
+            </div>
+          </article>
+        </Reveal>
+
+        {/* 04 — IdentiPI: split card with a gold spine */}
+        <Reveal>
+          <article className={cn("container-page transition-all duration-500", dim(idp))} aria-label={idp.name}>
+            <div className="grid border hairline bg-white/45 backdrop-blur-sm lg:grid-cols-12">
+              <div className="border-b-4 border-accent p-6 sm:p-10 lg:col-span-5 lg:border-b-0 lg:border-r-4">
+                <ProjectText project={idp} />
+              </div>
+              <div className="p-6 sm:p-10 lg:col-span-7">
+                <p className="mb-6 font-mono text-[10px] uppercase tracking-[0.2em] text-primary">Interactive · share vs. prove</p>
+                <IdentipiViz />
+              </div>
+            </div>
+          </article>
+        </Reveal>
       </div>
     </section>
   );

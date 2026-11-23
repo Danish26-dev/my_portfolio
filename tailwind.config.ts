@@ -1,13 +1,15 @@
 import type { Config } from "tailwindcss";
 
 /**
- * Palette (light theme)
- *   paper   #EDECE6  page background        (--color-bg)
- *   primary #1546D9  brand blue             (--color-primary)
- *   accent  #F9B318  amber highlight        (--color-accent)
- *   muted   #1E293B  dark neutral for copy  (--color-text-muted)
- * Derived (not in the brief): paper2 / ink / primary.deep / accent.ink are
- * tints and shades of the above, used for surfaces, headings and AA-contrast text.
+ * LOCKED PALETTE
+ *   paper   #EDECE6  warm beige, page background
+ *   primary #1546D9  cobalt blue: headings, interaction, emphasis
+ *   accent  #F9B318  sun yellow: highlights and small details
+ *   ink     #111827  supporting dark, typography
+ *   muted   #586274  secondary text
+ *   white   #FFFFFF  translucent surfaces
+ * Derived shades (tints/shades of the above, not new hues): paper2, primary.deep,
+ * primary.soft, accent.ink (AA-contrast yellow for small text).
  */
 const config: Config = {
   content: [
@@ -20,12 +22,13 @@ const config: Config = {
       colors: {
         paper: "#EDECE6",
         paper2: "#E2E1D8",
-        primary: { DEFAULT: "#1546D9", deep: "#0F34A8" },
+        primary: { DEFAULT: "#1546D9", deep: "#0F34A8", soft: "#5B82F0" },
         accent: { DEFAULT: "#F9B318", ink: "#8A5A00" },
-        ink: "#0F172A",
-        muted: "#1E293B",
+        ink: "#111827",
+        muted: "#586274",
       },
       fontFamily: {
+        serif: ["var(--font-serif)", "Georgia", "serif"],
         display: ["var(--font-display)", "system-ui", "sans-serif"],
         sans: ["var(--font-body)", "system-ui", "sans-serif"],
         mono: ["var(--font-mono)", "ui-monospace", "monospace"],

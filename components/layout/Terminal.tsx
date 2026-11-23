@@ -131,7 +131,7 @@ export function Terminal() {
                 <span className="font-mono text-[11px] uppercase tracking-[0.2em] text-primary">
                   danish.os
                 </span>
-                <button type="button" aria-label="Close terminal" onClick={() => setOpen(false)} className="text-muted/75 hover:text-ink">
+                <button type="button" aria-label="Close terminal" onClick={() => setOpen(false)} className="text-muted hover:text-ink">
                   <X size={16} />
                 </button>
               </div>

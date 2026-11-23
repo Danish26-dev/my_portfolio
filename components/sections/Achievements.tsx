@@ -1,8 +1,9 @@
 "use client";
 
-import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
+import { useReducedMotion } from "@/hooks/useReducedMotion";
 import Link from "next/link";
-import { ArrowUpRight, FileBadge, ImageIcon } from "lucide-react";
+import { ArrowUpRight, Camera, FileBadge, ImageIcon } from "lucide-react";
 import { useId, useState } from "react";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { Reveal } from "@/components/ui/Reveal";
@@ -41,7 +42,7 @@ function Medal({ a }: { a: Achievement }) {
         <path d="M62 8 L100 78 L88 90 L46 14 Z" fill={`url(#r${id})`} />
         <path d="M138 8 L100 78 L112 90 L154 14 Z" fill={`url(#r${id})`} opacity="0.85" />
         <circle cx="100" cy="125" r="68" fill={`url(#m${id})`} />
-        <circle cx="100" cy="125" r="56" fill="#1E293B" fillOpacity="0.96" />
+        <circle cx="100" cy="125" r="56" fill="#111827" fillOpacity="0.96" />
         <circle cx="100" cy="125" r="56" fill="none" stroke={t.a} strokeOpacity="0.6" />
         <g clipPath={`url(#c${id})`}>
           <motion.rect
@@ -75,15 +76,15 @@ function Medal({ a }: { a: Achievement }) {
 function Slot({ icon, label, src, hint }: { icon: React.ReactNode; label: string; src?: string; hint: string }) {
   return (
     <div className="flex items-center gap-3 border border-dashed border-muted/40 p-3">
-      <span className="grid h-10 w-10 shrink-0 place-items-center bg-ink/5 text-muted/75">{icon}</span>
+      <span className="grid h-10 w-10 shrink-0 place-items-center bg-ink/5 text-muted">{icon}</span>
       <div className="min-w-0">
-        <p className="font-mono text-[10.5px] uppercase tracking-[0.16em] text-muted/75">{label}</p>
+        <p className="font-mono text-[10.5px] uppercase tracking-[0.16em] text-muted">{label}</p>
         {src ? (
           <a href={src} target="_blank" rel="noopener noreferrer" className="text-sm text-primary underline-offset-4 hover:underline">
             View
           </a>
         ) : (
-          <p className="truncate text-xs text-muted/70">{hint}</p>
+          <p className="truncate text-xs text-muted">{hint}</p>
         )}
       </div>
     </div>
@@ -100,11 +101,13 @@ export function Achievements() {
     <section id="achievements" aria-labelledby="ach-title" className="section overflow-hidden bg-gradient-to-b from-transparent via-paper2/60 to-transparent">
       <div className="container-page">
         <SectionHeading
-          index="03"
-          eyebrow="Hall of recognition"
-          lines={["Built under pressure.", "Recognized by", "the community."]}
+          index="04"
+          eyebrow="Recognition"
+          lines={["Built under pressure.", "Recognized by the *results.*"]}
           id="ach-title"
-        />
+        >
+          Five hackathon results across 2025 and 2026. Select one to see the event, the project behind it and the prize.
+        </SectionHeading>
 
         <Reveal>
           <dl className="mb-14 grid max-w-2xl grid-cols-3 border-y hairline">
@@ -117,7 +120,7 @@ export function Achievements() {
               },
             ].map((s) => (
               <div key={s.l} className="flex flex-col-reverse border-r hairline px-4 py-5 last:border-r-0 sm:px-6">
-                <dt className="mt-1 font-mono text-[10px] uppercase tracking-[0.16em] text-muted/75">{s.l}</dt>
+                <dt className="mt-1 font-mono text-[10px] uppercase tracking-[0.16em] text-muted">{s.l}</dt>
                 <dd className="font-display text-4xl font-semibold text-primary sm:text-5xl">
                   <Counter to={s.n} />
                 </dd>
@@ -155,12 +158,15 @@ export function Achievements() {
                 {i === active && (
                   <motion.span layoutId="ach-bar" className="absolute inset-y-0 left-0 w-[3px] bg-gradient-to-b from-primary to-accent" />
                 )}
-                <span className={cn("font-mono text-xs", i === active ? "text-primary" : "text-muted/75")}>{item.index}</span>
+                <span className={cn("font-mono text-xs", i === active ? "text-primary" : "text-muted")}>{item.index}</span>
                 <span>
                   <span className={cn("block font-display text-lg font-semibold uppercase leading-tight tracking-tight sm:text-xl", i === active ? "text-ink" : "text-ink/70")}>
-                    {item.title}
+                    {item.event}
                   </span>
-                  <span className="mt-1 block text-sm text-muted/75">{item.event}</span>
+                  <span className="mt-1 block text-sm text-muted">
+                    {item.title}
+                    {item.prize ? ` · ${item.prize}` : ""}
+                  </span>
                 </span>
               </button>
             ))}
@@ -195,13 +201,13 @@ export function Achievements() {
                   <Medal a={a} />
                   <div>
                     <p className="eyebrow">{a.index} / 0{achievements.length}</p>
-                    <h3 className="mt-3 font-display text-3xl font-semibold uppercase leading-[1.02] tracking-tight sm:text-4xl">
-                      {a.title}
+                    <h3 className="mt-3 font-display text-3xl font-semibold uppercase leading-[1.02] tracking-tight sm:text-[2.35rem]">
+                      {a.event}
                     </h3>
-                    <p className="mt-3 text-lg text-ink/85">{a.event}</p>
+                    <p className="mt-3 text-lg font-medium text-ink/85">{a.title}</p>
                     <dl className="mt-6 grid grid-cols-2 gap-4 border-t hairline pt-5">
                       <div>
-                        <dt className="font-mono text-[10.5px] uppercase tracking-[0.18em] text-muted/75">Project</dt>
+                        <dt className="font-mono text-[10.5px] uppercase tracking-[0.18em] text-muted">Project</dt>
                         <dd className="mt-1">
                           <Link href={`/projects/${a.projectSlug}`} className="inline-flex items-center gap-1 text-primary hover:underline">
                             {a.project} <ArrowUpRight size={14} />
@@ -210,7 +216,7 @@ export function Achievements() {
                       </div>
                       {a.prize && (
                         <div>
-                          <dt className="font-mono text-[10.5px] uppercase tracking-[0.18em] text-muted/75">Prize</dt>
+                          <dt className="font-mono text-[10.5px] uppercase tracking-[0.18em] text-muted">Prize</dt>
                           <dd className="mt-1 font-display text-2xl font-semibold" style={{ color: t.c }}>
                             {a.prize}
                           </dd>
@@ -220,18 +226,24 @@ export function Achievements() {
                   </div>
                 </div>
 
-                <div className="relative mt-8 grid gap-3 sm:grid-cols-2">
+                <div className="relative mt-8 grid gap-3 sm:grid-cols-3">
                   <Slot
                     icon={<ImageIcon size={18} />}
                     label="Event logo"
                     src={a.logo}
-                    hint="Awaiting official logo (public/logos)"
+                    hint="Official logo goes in public/logos"
                   />
                   <Slot
                     icon={<FileBadge size={18} />}
                     label="Certificate"
                     src={a.certificate}
-                    hint="Awaiting certificate (public/certificates)"
+                    hint="Certificate goes in public/certificates"
+                  />
+                  <Slot
+                    icon={<Camera size={18} />}
+                    label="Photograph"
+                    src={a.photo}
+                    hint="Event photo goes in public/photos"
                   />
                 </div>
               </motion.div>

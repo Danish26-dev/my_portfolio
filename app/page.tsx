@@ -3,23 +3,23 @@ import { About } from "@/components/sections/About";
 import { Projects } from "@/components/sections/Projects";
 import { Achievements } from "@/components/sections/Achievements";
 import { Expertise } from "@/components/sections/Expertise";
-import { Education } from "@/components/sections/Education";
-import { Research } from "@/components/sections/Research";
-import { Beyond } from "@/components/sections/Beyond";
+import { Builder } from "@/components/sections/Builder";
 import { Contact } from "@/components/sections/Contact";
+import { Outro } from "@/components/sections/Outro";
+import { ChapterRail } from "@/components/layout/ChapterRail";
 
 export default function HomePage() {
   return (
     <>
+      <ChapterRail />
       <Hero />
       <About />
       <Projects />
       <Achievements />
       <Expertise />
-      <Education />
-      <Research />
-      <Beyond />
+      <Builder />
       <Contact />
+      <Outro />
     </>
   );
 }

@@ -56,7 +56,7 @@ export function Preloader() {
                   style={{ width: `${pct}%` }}
                 />
               </div>
-              <div className="mt-3 flex justify-between font-mono text-[10px] uppercase tracking-[0.3em] text-muted/75">
+              <div className="mt-3 flex justify-between font-mono text-[10px] uppercase tracking-[0.3em] text-muted">
                 <span>Diving in</span>
                 <span>{String(pct).padStart(3, "0")}</span>
               </div>

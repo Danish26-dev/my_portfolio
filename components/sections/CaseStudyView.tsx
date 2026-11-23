@@ -35,14 +35,14 @@ function Block({
 function Pending({ text }: { text: string }) {
   return (
     <div className="border border-dashed border-muted/50 p-5">
-      <p className="font-mono text-[10.5px] uppercase tracking-[0.2em] text-muted/75">To complete</p>
-      <p className="mt-2 text-muted/75">{text}</p>
+      <p className="font-mono text-[10.5px] uppercase tracking-[0.2em] text-muted">To complete</p>
+      <p className="mt-2 text-muted">{text}</p>
     </div>
   );
 }
 
 const Paragraphs = ({ items }: { items: string[] }) => (
-  <div className="space-y-5 text-lg leading-relaxed text-muted">
+  <div className="space-y-5 text-lg leading-relaxed text-ink/85">
     {items.map((t) => (
       <p key={t}>{t}</p>
     ))}
@@ -68,7 +68,7 @@ export function CaseStudyView({ project }: { project: Project }) {
           style={{ background: "radial-gradient(circle, rgba(249,179,24,0.3), transparent 70%)" }}
         />
         <div className="container-page relative">
-          <Link href="/#projects" className="inline-flex items-center gap-2 font-mono text-[11px] font-medium uppercase tracking-[0.18em] text-muted/75 transition-colors hover:text-primary">
+          <Link href="/#projects" className="inline-flex items-center gap-2 font-mono text-[11px] font-medium uppercase tracking-[0.18em] text-muted transition-colors hover:text-primary">
             <ArrowLeft size={14} /> All projects
           </Link>
           <div className="mt-10 grid items-end gap-12 lg:grid-cols-12">
@@ -78,10 +78,10 @@ export function CaseStudyView({ project }: { project: Project }) {
                 <LineReveal lines={[project.name]} />
               </h1>
               {project.fullName && (
-                <p className="mt-3 font-mono text-xs uppercase tracking-[0.2em] text-muted/75">{project.fullName}</p>
+                <p className="mt-3 font-mono text-xs uppercase tracking-[0.2em] text-muted">{project.fullName}</p>
               )}
-              <p className="mt-6 max-w-xl text-xl leading-relaxed text-muted">{project.description}</p>
-              <p className="mt-5 text-sm text-muted/75">{project.category}</p>
+              <p className="mt-6 max-w-xl text-xl leading-relaxed text-ink/85">{project.description}</p>
+              <p className="mt-5 text-sm text-muted">{project.category}</p>
 
               {project.badge && (
                 <p className="mt-6 inline-flex items-start gap-2.5 border border-accent bg-accent/20 px-3 py-2 font-mono text-[11px] font-medium uppercase leading-snug tracking-[0.1em] text-ink">
@@ -96,7 +96,7 @@ export function CaseStudyView({ project }: { project: Project }) {
                     <GithubIcon size={15} /> GitHub
                   </a>
                 ) : (
-                  <span className="btn border border-dashed border-muted/50 text-muted/75" aria-disabled="true">
+                  <span className="btn border border-dashed border-muted/50 text-muted" aria-disabled="true">
                     Repository link not added yet
                   </span>
                 )}
@@ -105,7 +105,7 @@ export function CaseStudyView({ project }: { project: Project }) {
                     Live demo <ArrowUpRight size={15} />
                   </a>
                 ) : (
-                  <span className="btn border border-dashed border-muted/50 text-muted/75" aria-disabled="true">
+                  <span className="btn border border-dashed border-muted/50 text-muted" aria-disabled="true">
                     Demo link not added yet
                   </span>
                 )}
@@ -117,11 +117,11 @@ export function CaseStudyView({ project }: { project: Project }) {
               </div>
               <dl className="mt-4 grid grid-cols-2 gap-px border hairline bg-ink/10 text-sm">
                 <div className="bg-paper p-4">
-                  <dt className="font-mono text-[10px] uppercase tracking-[0.18em] text-muted/75">Status</dt>
+                  <dt className="font-mono text-[10px] uppercase tracking-[0.18em] text-muted">Status</dt>
                   <dd className="mt-1">{project.status}</dd>
                 </div>
                 <div className="bg-paper p-4">
-                  <dt className="font-mono text-[10px] uppercase tracking-[0.18em] text-muted/75">Domain</dt>
+                  <dt className="font-mono text-[10px] uppercase tracking-[0.18em] text-muted">Domain</dt>
                   <dd className="mt-1">{project.filters.join(" · ")}</dd>
                 </div>
               </dl>
@@ -161,7 +161,7 @@ export function CaseStudyView({ project }: { project: Project }) {
         </Block>
         <Block n="06" title="Engineering contributions" id="contributions">
           {cs.contributions.items.length > 0 && (
-            <ul className="space-y-3 text-lg text-muted">
+            <ul className="space-y-3 text-lg text-ink/85">
               {cs.contributions.items.map((c) => (
                 <li key={c} className="flex gap-3">
                   <span className="mt-3 h-1.5 w-1.5 shrink-0 rotate-45 bg-accent" />
@@ -179,7 +179,7 @@ export function CaseStudyView({ project }: { project: Project }) {
                 <span className="font-mono text-sm font-medium text-primary">0{i + 1}</span>
                 <div>
                   <h3 className="font-display text-xl font-semibold uppercase tracking-tight">{d.title}</h3>
-                  <p className="mt-2 leading-relaxed text-muted">{d.body}</p>
+                  <p className="mt-2 leading-relaxed text-ink/80">{d.body}</p>
                 </div>
               </li>
             ))}
@@ -191,7 +191,7 @@ export function CaseStudyView({ project }: { project: Project }) {
               {cs.challenges.items.map((c) => (
                 <li key={c.challenge} className="border-l-2 border-primary/50 pl-5">
                   <p className="font-display text-lg font-semibold">{c.challenge}</p>
-                  <p className="mt-1 text-muted">{c.solution}</p>
+                  <p className="mt-1 text-ink/80">{c.solution}</p>
                 </li>
               ))}
             </ul>
@@ -231,7 +231,7 @@ export function CaseStudyView({ project }: { project: Project }) {
       {/* prev / next */}
       <nav aria-label="More case studies" className="grid border-t hairline sm:grid-cols-2">
         <Link href={`/projects/${prev.slug}`} className="group border-b hairline p-8 transition-colors hover:bg-primary/[0.05] sm:border-b-0 sm:border-r sm:p-12">
-          <p className="flex items-center gap-2 font-mono text-[11px] font-medium uppercase tracking-[0.18em] text-muted/75">
+          <p className="flex items-center gap-2 font-mono text-[11px] font-medium uppercase tracking-[0.18em] text-muted">
             <ArrowLeft size={14} /> Previous
           </p>
           <p className="mt-3 font-display text-3xl font-semibold uppercase tracking-tight transition-colors group-hover:text-primary sm:text-4xl">
@@ -239,7 +239,7 @@ export function CaseStudyView({ project }: { project: Project }) {
           </p>
         </Link>
         <Link href={`/projects/${next.slug}`} className="group p-8 text-left transition-colors hover:bg-primary/[0.05] sm:p-12 sm:text-right">
-          <p className="flex items-center gap-2 font-mono text-[11px] font-medium uppercase tracking-[0.18em] text-muted/75 sm:justify-end">
+          <p className="flex items-center gap-2 font-mono text-[11px] font-medium uppercase tracking-[0.18em] text-muted sm:justify-end">
             Next <ArrowRight size={14} />
           </p>
           <p className="mt-3 font-display text-3xl font-semibold uppercase tracking-tight transition-colors group-hover:text-primary sm:text-4xl">

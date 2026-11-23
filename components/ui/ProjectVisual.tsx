@@ -1,6 +1,7 @@
 "use client";
 
-import { motion, useReducedMotion } from "framer-motion";
+import { motion } from "framer-motion";
+import { useReducedMotion } from "@/hooks/useReducedMotion";
 import { useId } from "react";
 import type { VisualKind } from "@/lib/data/projects";
 
@@ -56,7 +57,7 @@ export function ProjectVisual({ kind, label }: { kind: VisualKind; label: string
             cx={n.x}
             cy={n.y}
             r="7"
-            fill="#F7F6F1"
+            fill="#FFFFFF"
             stroke="#F9B318"
             strokeWidth="1.5"
             animate={reduce ? undefined : { scale: [1, 1.35, 1] }}
@@ -78,7 +79,7 @@ export function ProjectVisual({ kind, label }: { kind: VisualKind; label: string
           >
             <path
               d={`M120 ${190 - i * 34} L250 ${160 - i * 34} L310 ${185 - i * 34} L180 ${215 - i * 34} Z`}
-              fill="#F7F6F1"
+              fill="#FFFFFF"
               stroke={`url(#a${id})`}
               strokeOpacity={0.9 - i * 0.2}
             />
@@ -89,7 +90,7 @@ export function ProjectVisual({ kind, label }: { kind: VisualKind; label: string
                 y1={192 - i * 34 - l * 8}
                 x2={235 + l * 8}
                 y2={178 - i * 34 - l * 8}
-                stroke="#1E293B"
+                stroke="#111827"
                 strokeOpacity="0.35"
               />
             ))}
@@ -100,7 +101,7 @@ export function ProjectVisual({ kind, label }: { kind: VisualKind; label: string
             <line x1={x} y1={y} x2="215" y2="150" stroke="#1546D9" strokeOpacity="0.25" strokeDasharray="3 5" />
             <polygon
               points={`${x},${y - 9} ${x + 8},${y - 4.5} ${x + 8},${y + 4.5} ${x},${y + 9} ${x - 8},${y + 4.5} ${x - 8},${y - 4.5}`}
-              fill="#F7F6F1"
+              fill="#FFFFFF"
               stroke="#F9B318"
             />
           </g>
@@ -151,7 +152,7 @@ export function ProjectVisual({ kind, label }: { kind: VisualKind; label: string
             <line x1="200" y1="150" x2={x} y2={y} stroke="#F9B318" strokeOpacity="0.3" />
             <motion.polygon
               points={hex(x, y, 15)}
-              fill="#F7F6F1"
+              fill="#FFFFFF"
               stroke="#1546D9"
               style={{ transformOrigin: `${x}px ${y}px` }}
               animate={reduce ? undefined : { scale: [1, 1.18, 1] }}
@@ -160,8 +161,8 @@ export function ProjectVisual({ kind, label }: { kind: VisualKind; label: string
           </g>
         ))}
         <polygon points={hex(200, 150, 28)} fill={`url(#a${id})`} fillOpacity="0.9" />
-        <circle cx="200" cy="146" r="6" fill="#0F172A" />
-        <rect x="197" y="150" width="6" height="14" fill="#0F172A" />
+        <circle cx="200" cy="146" r="6" fill="#111827" />
+        <rect x="197" y="150" width="6" height="14" fill="#111827" />
       </>
     );
   } else {

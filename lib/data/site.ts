@@ -30,8 +30,9 @@ export type SectionId =
 
 /** Sections without their own nav item are highlighted under a neighbour. */
 export const navAlias: Record<string, string> = {
-  education: "expertise",
+  education: "research",
   beyond: "research",
+  outro: "contact",
 };
 
 export const sectionIds: SectionId[] = [

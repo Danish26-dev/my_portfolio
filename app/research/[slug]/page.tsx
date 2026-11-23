@@ -24,7 +24,7 @@ export default function NotePage({ params }: { params: { slug: string } }) {
   return (
     <article className="pb-24 pt-36 sm:pt-44">
       <div className="container-page">
-        <Link href="/#research" className="inline-flex items-center gap-2 font-mono text-[11px] uppercase tracking-[0.18em] text-muted/75 transition-colors hover:text-primary">
+        <Link href="/#research" className="inline-flex items-center gap-2 font-mono text-[11px] uppercase tracking-[0.18em] text-muted transition-colors hover:text-primary">
           <ArrowLeft size={14} /> Research & notes
         </Link>
 
@@ -67,7 +67,7 @@ export default function NotePage({ params }: { params: { slug: string } }) {
           {project?.caseStudy && (
             <Link href={`/projects/${project.slug}`} className="group flex items-center justify-between border hairline p-6 transition-colors hover:border-primary/50">
               <span>
-                <span className="block font-mono text-[10.5px] uppercase tracking-[0.18em] text-muted/75">Related project</span>
+                <span className="block font-mono text-[10.5px] uppercase tracking-[0.18em] text-muted">Related project</span>
                 <span className="mt-1 block font-display text-2xl font-semibold uppercase group-hover:text-primary">{project.name}</span>
               </span>
               <ArrowUpRight className="text-primary" />

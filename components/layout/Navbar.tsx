@@ -11,17 +11,7 @@ import { PhoenixMark } from "@/components/ui/Logo";
 import { ResumeLink } from "./ResumeViewer";
 import { cn, easeOutExpo } from "@/lib/utils";
 
-const ids = [
-  "home",
-  "about",
-  "projects",
-  "achievements",
-  "expertise",
-  "education",
-  "research",
-  "beyond",
-  "contact",
-];
+const ids = ["home", "about", "projects", "achievements", "expertise", "research", "contact", "outro"];
 
 export function Navbar() {
   const pathname = usePathname();
@@ -71,7 +61,7 @@ export function Navbar() {
           className={cn(
             "flex w-full max-w-5xl items-center justify-between gap-4 rounded-full border px-4 py-2.5 transition-all duration-500 sm:px-5",
             scrolled || open
-              ? "border-ink/10 bg-paper/75 shadow-[0_10px_40px_-15px_rgba(15,23,42,0.28)] backdrop-blur-xl"
+              ? "border-ink/10 bg-paper/75 shadow-[0_10px_40px_-15px_rgba(17,24,39,0.28)] backdrop-blur-xl"
               : "border-transparent bg-transparent"
           )}
         >
@@ -90,7 +80,7 @@ export function Navbar() {
                   aria-current={active === item.id ? "page" : undefined}
                   className={cn(
                     "relative block rounded-full px-3.5 py-2 font-mono text-[11px] font-medium uppercase tracking-[0.16em] transition-colors",
-                    active === item.id ? "text-primary" : "text-muted/75 hover:text-ink"
+                    active === item.id ? "text-primary" : "text-muted hover:text-ink"
                   )}
                 >
                   {active === item.id && (
@@ -153,7 +143,7 @@ export function Navbar() {
                       active === item.id ? "text-primary" : "text-ink"
                     )}
                   >
-                    <span className="font-mono text-[11px] text-muted/75">0{i + 1}</span>
+                    <span className="font-mono text-[11px] text-muted">0{i + 1}</span>
                     {item.label}
                   </Link>
                 </motion.li>

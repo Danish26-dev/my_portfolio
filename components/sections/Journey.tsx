@@ -1,6 +1,7 @@
 "use client";
 
-import { motion, useReducedMotion, useScroll, useTransform } from "framer-motion";
+import { motion, useScroll, useTransform } from "framer-motion";
+import { useReducedMotion } from "@/hooks/useReducedMotion";
 import { useRef } from "react";
 import { journey } from "@/lib/data/profile";
 import { cn, easeOutExpo } from "@/lib/utils";
@@ -14,7 +15,7 @@ export function Journey() {
 
   return (
     <div className="mt-28">
-      <p className="eyebrow">Development journey</p>
+      <p className="eyebrow">The path so far</p>
       <div ref={ref} className="relative mt-10">
         <div className="absolute bottom-0 left-[7px] top-0 w-px bg-ink/10 md:left-1/2" />
         <motion.div
@@ -42,7 +43,7 @@ export function Journey() {
                   )}
                 />
                 <div className={cn(right ? "md:order-2 md:text-left" : "md:text-right")}>
-                  <p className={cn("font-mono text-[12px] uppercase tracking-[0.2em]", e.kind === "pending" ? "text-muted/75" : "text-primary")}>
+                  <p className={cn("font-mono text-[12px] uppercase tracking-[0.2em]", e.kind === "pending" ? "text-muted" : "text-primary")}>
                     {e.when}
                   </p>
                 </div>
@@ -50,7 +51,7 @@ export function Journey() {
                   <h3 className="font-display text-xl font-semibold uppercase leading-tight tracking-tight">
                     {e.title}
                   </h3>
-                  <p className="mt-2 text-muted/75">{e.body}</p>
+                  <p className="mt-2 text-muted">{e.body}</p>
                 </div>
               </motion.li>
             );

@@ -5,7 +5,8 @@ import { AlertCircle, CheckCircle2, FileText, Mail, Phone, Send } from "lucide-r
 import { ResumeLink } from "@/components/layout/ResumeViewer";
 import { useState } from "react";
 import { GithubIcon, LinkedinIcon } from "@/components/ui/BrandIcons";
-import { LineReveal, Reveal } from "@/components/ui/Reveal";
+import { Reveal } from "@/components/ui/Reveal";
+import { SectionHeading } from "@/components/ui/SectionHeading";
 import { site } from "@/lib/data/site";
 import { cn } from "@/lib/utils";
 
@@ -67,18 +68,18 @@ function ContactForm() {
     <form onSubmit={submit} noValidate className="space-y-5" aria-describedby="form-status">
       <div className="grid gap-5 sm:grid-cols-2">
         <div>
-          <label htmlFor="c-name" className="mb-2 block font-mono text-[11px] uppercase tracking-[0.16em] text-muted/75">Name</label>
+          <label htmlFor="c-name" className="mb-2 block font-mono text-[11px] uppercase tracking-[0.16em] text-muted">Name</label>
           <input id="c-name" name="name" autoComplete="name" value={values.name} onChange={set("name")} className={field("name")} aria-invalid={!!errors.name} aria-describedby={errors.name ? "e-name" : undefined} placeholder="Your name" />
           {errors.name && <p id="e-name" className="mt-1.5 text-sm text-red-700">{errors.name}</p>}
         </div>
         <div>
-          <label htmlFor="c-email" className="mb-2 block font-mono text-[11px] uppercase tracking-[0.16em] text-muted/75">Email</label>
+          <label htmlFor="c-email" className="mb-2 block font-mono text-[11px] uppercase tracking-[0.16em] text-muted">Email</label>
           <input id="c-email" name="email" type="email" autoComplete="email" value={values.email} onChange={set("email")} className={field("email")} aria-invalid={!!errors.email} aria-describedby={errors.email ? "e-email" : undefined} placeholder="you@example.com" />
           {errors.email && <p id="e-email" className="mt-1.5 text-sm text-red-700">{errors.email}</p>}
         </div>
       </div>
       <div>
-        <label htmlFor="c-msg" className="mb-2 block font-mono text-[11px] uppercase tracking-[0.16em] text-muted/75">Message</label>
+        <label htmlFor="c-msg" className="mb-2 block font-mono text-[11px] uppercase tracking-[0.16em] text-muted">Message</label>
         <textarea id="c-msg" name="message" rows={5} value={values.message} onChange={set("message")} className={cn(field("message"), "resize-y")} aria-invalid={!!errors.message} aria-describedby={errors.message ? "e-msg" : undefined} placeholder="What are you building?" />
         {errors.message && <p id="e-msg" className="mt-1.5 text-sm text-red-700">{errors.message}</p>}
       </div>
@@ -122,22 +123,17 @@ export function Contact() {
         style={{ background: "radial-gradient(60% 80% at 50% 100%, rgba(21,70,217,0.14), transparent 70%)" }}
       />
       <div className="container-page relative">
-        <Reveal>
-          <p className="eyebrow flex items-center gap-4">
-            <span className="text-muted/75">08</span>
-            <span className="h-px w-10 bg-primary/50" />
-            Contact
-          </p>
-        </Reveal>
-        <h2 id="contact-title" className="h-section mt-6 max-w-5xl">
-          <LineReveal lines={["Have an interesting", "problem to solve?"]} />
-        </h2>
-        <Reveal delay={0.15} className="mt-8 max-w-2xl text-lg leading-relaxed text-muted/75">
-          I&apos;m always interested in ambitious engineering challenges, collaborations, hackathons and
-          opportunities to build meaningful technology.
-        </Reveal>
+        <SectionHeading
+          index="07"
+          eyebrow="The next build starts here"
+          lines={["Have something", "*interesting* to build?"]}
+          id="contact-title"
+        >
+          I&apos;m always interested in challenging engineering problems, ambitious collaborations and opportunities to build
+          technology that matters.
+        </SectionHeading>
 
-        <div className="mt-16 grid gap-14 lg:grid-cols-12">
+        <div className="grid gap-14 lg:grid-cols-12">
           <div className="lg:col-span-5">
             <Reveal>
               <a href={`mailto:${site.email}`} className="btn-primary w-full sm:w-auto">
@@ -157,7 +153,7 @@ export function Contact() {
                   >
                     <span className="grid h-10 w-10 place-items-center border hairline text-primary">{l.icon}</span>
                     <span className="min-w-0">
-                      <span className="block font-mono text-[10.5px] uppercase tracking-[0.18em] text-muted/75">{l.label}</span>
+                      <span className="block font-mono text-[10.5px] uppercase tracking-[0.18em] text-muted">{l.label}</span>
                       <span className="block break-all text-ink/90 group-hover:text-primary">{l.value}</span>
                     </span>
                   </a>

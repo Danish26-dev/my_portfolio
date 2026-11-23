@@ -34,8 +34,8 @@ export const skillCategories: SkillCategory[] = [
   },
   {
     id: "languages",
-    label: "Programming Languages",
-    blurb: "The languages I build with.",
+    label: "Programming",
+    blurb: "The languages I write most.",
     skills: [
       { id: "java", name: "Java" },
       { id: "javascript", name: "JavaScript" },
@@ -44,7 +44,7 @@ export const skillCategories: SkillCategory[] = [
   },
   {
     id: "ai",
-    label: "AI & Agentic Systems",
+    label: "Agentic AI",
     blurb: "Agents, models and the orchestration between them.",
     skills: [
       { id: "google-adk", name: "Google ADK" },
@@ -58,8 +58,8 @@ export const skillCategories: SkillCategory[] = [
   },
   {
     id: "web3",
-    label: "Blockchain & Web3",
-    blurb: "Decentralized identity, payments and private compute.",
+    label: "Web3",
+    blurb: "Identity, payments and private compute on-chain.",
     skills: [
       { id: "hedera", name: "Hedera" },
       { id: "x402", name: "x402 Payments" },
@@ -73,8 +73,8 @@ export const skillCategories: SkillCategory[] = [
   },
   {
     id: "tools",
-    label: "Tools & Cloud",
-    blurb: "Infrastructure, hardware and workflow tooling.",
+    label: "Tools & Infrastructure",
+    blurb: "Cloud, hardware and workflow tooling.",
     skills: [
       { id: "git", name: "Git" },
       { id: "github", name: "GitHub" },

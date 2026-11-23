@@ -1,9 +1,28 @@
+/**
+ * Each principle is paired with something that is true of a project on this site.
+ * Keep it that way: no principle without a receipt.
+ */
 export const philosophy = [
-  "Build before overthinking.",
-  "Understand systems beyond abstractions.",
-  "Experiment with emerging technologies.",
-  "Prioritize practical engineering.",
-  "Learn through shipping.",
+  {
+    title: "Build before overthinking.",
+    proof: "Every featured project here started as a working prototype built against a hackathon clock.",
+  },
+  {
+    title: "Understand systems beyond abstractions.",
+    proof: "FRAB's risk intelligence is deterministic, so a number in a report can be traced back to the evidence behind it.",
+  },
+  {
+    title: "Experiment with emerging technologies.",
+    proof: "x402 payments, TEE-backed inference and zero-knowledge proofs all appear in the projects listed here.",
+  },
+  {
+    title: "Prioritize practical engineering.",
+    proof: "InkLink ends in a physical print job on an ESP32, not in a demo video.",
+  },
+  {
+    title: "Learn through shipping.",
+    proof: "Four hackathon awards and one finalist place came from submitting working builds.",
+  },
 ];
 
 export const explore = [
@@ -30,19 +49,19 @@ export interface TimelineEntry {
 export const journey: TimelineEntry[] = [
   {
     when: "Sep 2023",
-    title: "Begins B.E. in Computer Science and Engineering",
-    body: "Starts at Sambhram Institute of Technology.",
+    title: "Starts B.E. in Computer Science and Engineering",
+    body: "Sambhram Institute of Technology.",
     kind: "academic",
   },
   {
     when: "2025",
     title: "Finalist, Cardano Hackathon",
-    body: "IdentiPI reaches the finals at India Blockchain Week 2025.",
+    body: "IdentiPI reaches the final round at India Blockchain Week 2025.",
     kind: "milestone",
   },
   {
     when: "2026",
-    title: "Podium finishes at three hackathons",
+    title: "Three podium finishes",
     body: "COLOSSUS 3.0 (2nd Runner-Up, FRAB), Smart Horizon (3rd, FRAB) and ETHGlobal Mumbai (3rd Prize, Hedera Track, InkLink).",
     kind: "milestone",
   },

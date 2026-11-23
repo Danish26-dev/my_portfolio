@@ -1,6 +1,6 @@
 # Md Danish Ali — Portfolio
 
-Next.js 14 (App Router) · React 18 · TypeScript · Tailwind · Framer Motion · Three.js / React Three Fiber / Drei.
+Next.js 14 (App Router) · React 18 · TypeScript · Tailwind · Framer Motion · Three.js / React Three Fiber (custom GLSL).
 
 ```bash
 npm install
@@ -8,69 +8,93 @@ npm run dev        # http://localhost:3000
 npm run build && npm start
 ```
 
-## Design system
+## The story
 
-Light theme. Palette lives in `app/globals.css` (CSS variables) and `tailwind.config.ts` (utility classes).
+The page is one narrative in seven chapters, closed by an epilogue. The chapter rail on wide screens tracks progress.
+
+| # | Chapter | Component |
+| --- | --- | --- |
+| 01 | Introduction (pinned hero, phoenix spreads and dissolves as you scroll) | `sections/Hero.tsx` |
+| 02 | The engineer behind the builds | `sections/About.tsx` |
+| 03 | Built, tested and shipped (four bespoke project layouts) | `sections/Projects.tsx`, `sections/projects/*` |
+| 04 | Recognition | `sections/Achievements.tsx` |
+| 05 | The technologies I work with | `sections/Expertise.tsx` |
+| 06 | The builder beyond the projects (education, notes, more builds, hobbies) | `sections/Builder.tsx`, `sections/builder/*` |
+| 07 | The next build starts here | `sections/Contact.tsx` |
+| — | Epilogue: the phoenix re-forms and disperses into water | `sections/Outro.tsx` |
+
+Scrolling stays native. Only the hero and the epilogue are pinned (`position: sticky`), because the phoenix animation needs a scroll range to play in.
+
+## Design system (locked)
 
 | Token | Value | Use |
 | --- | --- | --- |
-| `--color-bg` / `paper` | `#EDECE6` | Page background |
-| `--color-primary` / `primary` | `#1546D9` | Brand blue: actions, links, 3D core |
-| `--color-accent` / `accent` | `#F9B318` | Highlights, hover states, 3D ring |
-| `--color-text-muted` / `muted` | `#1E293B` | Body copy |
+| `paper` | `#EDECE6` | Page background |
+| `primary` | `#1546D9` | Headings emphasis, interaction, the phoenix |
+| `accent` | `#F9B318` | Highlights, beak, prize details |
+| `ink` | `#111827` | Typography |
+| `muted` | `#586274` | Secondary text |
+| white | `#FFFFFF` | Translucent surfaces |
 
-Derived shades (not in the original palette): `paper2` (surface), `ink` (headings), `primary.deep`, `accent.ink` (an AA-contrast amber for text).
+Defined in `tailwind.config.ts` and as CSS variables in `app/globals.css`. Shades derived from these (`paper2`, `primary.deep`, `accent.ink` for AA-contrast small text) are tints, not new hues.
 
-The hero is a real-time 3D "agent core" (`components/three/HeroScene.tsx`): a distorted blue sphere with orbiting rings, beads and satellite shapes, lit by a custom light rig. There are no external models or HDR downloads. It pauses off-screen, lowers quality on phones, and falls back to a static SVG without WebGL.
+Type: Bricolage Grotesque (display), Inter (body), JetBrains Mono (labels), Instrument Serif italic (one emphasised phrase per headline, written as `*phrase*` in headline strings).
+
+## The Water Phoenix
+
+Built procedurally, with no models or textures:
+
+- `components/three/phoenix/model.ts` — feather specs: 11 primaries, 9 secondaries and coverts per wing (mirrored), 9 tail plumes, 4 crest plumes, body spine and radii. Also feeds the SVG fallback.
+- `geometry.ts` — feather strips, lathed body and head, beak, water ribbons, and ~7,800 droplets sampled on the surfaces.
+- `shaders.ts` — wing flap with a travelling wave, droplet gathering and dispersal, pointer repulsion, water-feather shading, waterline.
+- `PhoenixCanvas.tsx` — the story state machine (`form`, `spread`, `disperse`) driven by scroll progress, plus placement and pointer parallax.
+
+Performance: code-split (`next/dynamic`), pauses off-screen and on hidden tabs, ~3,400 droplets and DPR 1 on phones, adaptive DPR, a static SVG phoenix without WebGL, a frozen frame for `prefers-reduced-motion`.
 
 ## Where content lives (edit these, not components)
 
 | File | Content |
 | --- | --- |
 | `lib/data/site.ts` | Contact details, links, nav, resume path |
-| `lib/data/projects.ts` | Projects, case studies, architecture diagrams, repo/demo links |
-| `lib/data/achievements.ts` | Awards (exact titles/prizes), logo + certificate paths |
+| `lib/data/projects.ts` | Projects, case studies, diagrams, GitHub/demo links |
+| `lib/data/achievements.ts` | Awards (exact titles/prizes), logo, certificate and photo paths |
 | `lib/data/skills.ts` | Skill categories (projects reference skill ids) |
-| `lib/data/profile.ts` | Philosophy, journey timeline, education, hobbies |
-| `lib/data/research.ts` | Research / engineering notes (article template at `/research/[slug]`) |
+| `lib/data/profile.ts` | Principles, timeline, education, hobbies |
+| `lib/data/research.ts` | Notes (article template at `/research/[slug]`) |
 
-## Things still to supply (nothing was invented)
+## Still to supply (nothing was invented)
 
-- **Repo / demo URLs:** set `links.github` / `links.demo` per project. Buttons appear automatically; until then case pages show "not added yet".
-- **Case-study gaps:** "Engineering contributions" and "Challenges" show dashed *To complete* panels. The five additional projects (Yuktidoot, Odyssey, LactIQ, Klaim, Guruko) have name + tagline only.
-- **Architecture diagrams** are drafts derived from the stated components; verify flow and grouping.
-- **Logos / certificates:** add files to `public/logos` / `public/certificates` and set `logo` / `certificate` on the achievement.
-- **Athernex Hackathon year** is unknown, so the timeline shows "Date to confirm".
-- **PrintX paper** is deliberately not listed. Add it to `research.ts` once publication details and a link exist.
+- **Case-study "Challenges"** sections and the five smaller projects' write-ups.
+- **Event logos, certificates and photos**: drop files in `public/logos`, `public/certificates`, `public/photos` and set the paths in `achievements.ts`.
+- **Athernex Hackathon year** (the timeline shows "Date to confirm").
+- **PrintX paper**: listed only once publication details and a link exist.
+- **Live demo URLs** for each project.
+- Verify the **FRAB agent roles** (Watchman = detection, Detective = investigation, Jurist = compliance analysis, Scribe = reporting). They follow the order in the resume line and should be confirmed.
 
 ## Resume
 
-The file is `public/Md-Danish-Ali-Resume.pdf`. Every "Resume" button uses `ResumeLink` (`components/layout/ResumeViewer.tsx`): a click opens an in-page viewer with **Download** and **New tab** actions. Ctrl/Cmd-click, or no JavaScript, opens the PDF in a new tab. On phones the viewer offers Open / Download buttons because mobile browsers don't preview PDFs inline reliably.
-
-To update it, replace the PDF in `public/` and keep the filename.
+`public/Md-Danish-Ali-Resume.pdf`. Every resume button uses `ResumeLink` (`components/layout/ResumeViewer.tsx`): a click opens an in-page viewer with **Download** and **New tab**; Ctrl/Cmd-click, or no JavaScript, opens the PDF in a new tab. Replace the PDF to update it, keeping the filename.
 
 ## Contact form
 
-No backend is configured. Submitting validates input, then opens a prefilled `mailto:` to the address in `site.ts`. To use a real service (Formspree, Resend, ...), replace the body of `submit` in `components/sections/Contact.tsx` with a `fetch()` call.
+No backend is configured. Submitting validates input, then opens a prefilled `mailto:`. To use a real service (Formspree, Resend, ...), replace the body of `submit` in `components/sections/Contact.tsx` with a `fetch()` call.
 
 ## Deploy to Vercel
 
-Option A, dashboard (recommended): push to GitHub, then on [vercel.com/new](https://vercel.com/new) import `Danish26-dev/my_portfolio`. Vercel detects Next.js; keep the defaults.
+Dashboard: import `Danish26-dev/my_portfolio` at [vercel.com/new](https://vercel.com/new), preset **Next.js**, defaults for everything else.
 
-Option B, CLI:
+CLI:
 
 ```bash
 npm i -g vercel
 vercel login
-vercel            # preview deployment (first run links the project)
-vercel --prod     # production deployment
+vercel            # preview
+vercel --prod     # production
 ```
 
-After the first deploy, set `NEXT_PUBLIC_SITE_URL` (see `.env.example`) to your final URL under Project Settings → Environment Variables, then redeploy so canonical links, the sitemap and Open Graph tags use it.
+Then set `NEXT_PUBLIC_SITE_URL` (see `.env.example`) to the live URL and redeploy, so canonical links, the sitemap and Open Graph use it.
 
-## Performance notes
+## Notes
 
-- 3D is code-split (`next/dynamic`, `ssr:false`); the Beyond scene only loads near the viewport.
-- Scenes pause when off-screen or the tab is hidden. Phones and low-core devices get lower geometry detail and DPR 1; `PerformanceMonitor` drops DPR under load.
-- No WebGL, or a scene error, falls back to a static SVG. `prefers-reduced-motion` freezes the 3D animation and simplifies Framer Motion.
 - `/opengraph-image` is rendered on demand because `@vercel/og` fails to prerender on Windows paths with spaces.
+- Hydration safety: use `hooks/useReducedMotion` instead of Framer's `useReducedMotion`; the server cannot know the preference.

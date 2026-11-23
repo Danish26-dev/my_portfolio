@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { Bricolage_Grotesque, Inter, JetBrains_Mono } from "next/font/google";
+import { Bricolage_Grotesque, Inter, Instrument_Serif, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
@@ -14,6 +14,13 @@ import { site } from "@/lib/data/site";
 const display = Bricolage_Grotesque({
   subsets: ["latin"],
   variable: "--font-display",
+  display: "swap",
+});
+const serif = Instrument_Serif({
+  subsets: ["latin"],
+  weight: "400",
+  style: ["normal", "italic"],
+  variable: "--font-serif",
   display: "swap",
 });
 const body = Inter({ subsets: ["latin"], variable: "--font-body", display: "swap" });
@@ -68,7 +75,7 @@ const jsonLd = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className={`${display.variable} ${body.variable} ${mono.variable}`}>
+    <html lang="en" className={`${display.variable} ${serif.variable} ${body.variable} ${mono.variable}`}>
       <body>
         <script
           type="application/ld+json"

@@ -15,7 +15,7 @@ export function Footer() {
               {site.name}
             </span>
           </div>
-          <p className="mt-4 text-sm leading-relaxed text-muted/75">
+          <p className="mt-4 text-sm leading-relaxed text-muted">
             Software Engineer | Agentic AI | Web3 | Full-Stack Development.
           </p>
         </div>
@@ -25,33 +25,33 @@ export function Footer() {
             <Link
               key={n.id}
               href={n.id === "home" ? "/" : `/#${n.id}`}
-              className="py-1 text-muted/75 transition-colors hover:text-primary"
+              className="py-1 text-muted transition-colors hover:text-primary"
             >
               {n.label}
             </Link>
           ))}
-          <Link href="/#education" className="py-1 text-muted/75 transition-colors hover:text-primary">
+          <Link href="/#education" className="py-1 text-muted transition-colors hover:text-primary">
             Education
           </Link>
-          <Link href="/#beyond" className="py-1 text-muted/75 transition-colors hover:text-primary">
+          <Link href="/#beyond" className="py-1 text-muted transition-colors hover:text-primary">
             Beyond
           </Link>
         </nav>
 
         <div className="flex gap-3">
-          <a href={site.github} target="_blank" rel="noopener noreferrer" aria-label="GitHub" className="grid h-11 w-11 place-items-center border hairline text-muted/75 transition-colors hover:border-primary hover:text-primary">
+          <a href={site.github} target="_blank" rel="noopener noreferrer" aria-label="GitHub" className="grid h-11 w-11 place-items-center border hairline text-muted transition-colors hover:border-primary hover:text-primary">
             <GithubIcon />
           </a>
-          <a href={site.linkedin} target="_blank" rel="noopener noreferrer" aria-label="LinkedIn" className="grid h-11 w-11 place-items-center border hairline text-muted/75 transition-colors hover:border-primary hover:text-primary">
+          <a href={site.linkedin} target="_blank" rel="noopener noreferrer" aria-label="LinkedIn" className="grid h-11 w-11 place-items-center border hairline text-muted transition-colors hover:border-primary hover:text-primary">
             <LinkedinIcon />
           </a>
-          <a href={`mailto:${site.email}`} aria-label="Email" className="grid h-11 w-11 place-items-center border hairline text-muted/75 transition-colors hover:border-primary hover:text-primary">
+          <a href={`mailto:${site.email}`} aria-label="Email" className="grid h-11 w-11 place-items-center border hairline text-muted transition-colors hover:border-primary hover:text-primary">
             <Mail size={18} />
           </a>
         </div>
       </div>
       <div className="border-t hairline">
-        <p className="container-page py-5 font-mono text-[10.5px] uppercase tracking-[0.2em] text-muted/75">
+        <p className="container-page py-5 font-mono text-[10.5px] uppercase tracking-[0.2em] text-muted">
           © 2026 {site.name}. Designed and built from scratch.
         </p>
       </div>

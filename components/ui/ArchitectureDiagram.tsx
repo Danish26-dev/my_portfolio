@@ -1,6 +1,7 @@
 "use client";
 
-import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
+import { useReducedMotion } from "@/hooks/useReducedMotion";
 import { useMemo, useState } from "react";
 import { useMediaQuery } from "@/hooks/useMediaQuery";
 import { pathState } from "@/lib/utils";
@@ -10,7 +11,7 @@ const KIND_STYLE: Record<NonNullable<DiagramNode["kind"]>, { stroke: string; fil
   core: { stroke: "#1546D9", fill: "rgba(21,70,217,0.16)" },
   agent: { stroke: "#1546D9", fill: "rgba(21,70,217,0.06)" },
   service: { stroke: "#D99A0B", fill: "rgba(249,179,24,0.18)" },
-  io: { stroke: "#1E293B", fill: "rgba(30,41,59,0.05)" },
+  io: { stroke: "#111827", fill: "rgba(17,24,39,0.05)" },
 };
 
 function wrap(label: string, max: number) {
@@ -122,7 +123,7 @@ export function ArchitectureDiagram({
                     y={(y1 + y2) / 2 - 7}
                     textAnchor="middle"
                     fontSize="10"
-                    fill="#1E293B"
+                    fill="#111827"
                     style={{ fontFamily: "var(--font-mono)", letterSpacing: "0.08em", textTransform: "uppercase" }}
                   >
                     {e.label}
@@ -168,7 +169,7 @@ export function ArchitectureDiagram({
                   y={p.y - layout.nh / 2}
                   width={layout.nw}
                   height={layout.nh}
-                  fill="#F7F6F1"
+                  fill="#FFFFFF"
                   stroke={s.stroke}
                   strokeWidth={isSel || hoverId === n.id ? 2 : 1}
                 />
@@ -197,7 +198,7 @@ export function ArchitectureDiagram({
                   textAnchor="middle"
                   fontSize={layout.font}
                   fontWeight={600}
-                  fill="#0F172A"
+                  fill="#111827"
                   style={{ fontFamily: "var(--font-body)", pointerEvents: "none" }}
                 >
                   {lines.map((l, k) => (
@@ -226,7 +227,7 @@ export function ArchitectureDiagram({
           </motion.div>
         </AnimatePresence>
       </div>
-      <p className="mt-3 font-mono text-[10.5px] uppercase tracking-[0.14em] text-muted/80">{note}</p>
+      <p className="mt-3 font-mono text-[10.5px] uppercase tracking-[0.14em] text-muted">{note}</p>
     </div>
   );
 }

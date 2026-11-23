@@ -1,6 +1,7 @@
 "use client";
 
-import { animate, useInView, useReducedMotion } from "framer-motion";
+import { animate, useInView } from "framer-motion";
+import { useReducedMotion } from "@/hooks/useReducedMotion";
 import { useEffect, useRef, useState } from "react";
 
 /** Counts up once visible. Use only for verified numbers derived from data. */

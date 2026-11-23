@@ -1,6 +1,7 @@
 "use client";
 
-import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
+import { useReducedMotion } from "@/hooks/useReducedMotion";
 import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
 import { useMemo, useState } from "react";
@@ -20,7 +21,7 @@ export function Expertise() {
   const cat = skillCategories.find((c) => c.id === catId)!;
   const selected = cat.skills.find((s) => s.id === skillId) ?? null;
   const usedBy = useMemo(
-    () => (selected ? projects.filter((p) => p.skills.includes(selected.id)) : []),
+    () => (selected ? projects.filter((p) => p.featured && p.skills.includes(selected.id)) : []),
     [selected]
   );
 
@@ -33,9 +34,14 @@ export function Expertise() {
   return (
     <section id="expertise" aria-labelledby="exp-title" className="section">
       <div className="container-page">
-        <SectionHeading index="04" eyebrow="Technical expertise" lines={["The toolkit,", "mapped to real builds."]} id="exp-title">
-          Pick a category, then a technology, to see which of my projects use it. No percentages and no
-          star ratings, only where each tool has actually shipped.
+        <SectionHeading
+          index="05"
+          eyebrow="The technologies I work with"
+          lines={["My tools are different.", "The engineering *mindset* is the same."]}
+          id="exp-title"
+        >
+          Pick a category, then a technology, to see which featured projects use it. There are no percentages or star
+          ratings here, only where each tool has actually shipped.
         </SectionHeading>
 
         <div className="grid gap-10 lg:grid-cols-12">
@@ -51,7 +57,7 @@ export function Expertise() {
                 }}
                 className={cn(
                   "relative shrink-0 border-b hairline px-4 py-4 text-left transition-colors lg:py-5",
-                  c.id === catId ? "text-ink" : "text-muted/75 hover:text-ink"
+                  c.id === catId ? "text-ink" : "text-muted hover:text-ink"
                 )}
               >
                 {c.id === catId && (
@@ -61,7 +67,7 @@ export function Expertise() {
                 <span className="mt-1 block whitespace-nowrap font-display text-lg font-semibold uppercase tracking-tight lg:whitespace-normal lg:text-xl">
                   {c.label}
                 </span>
-                <span className="mt-1 hidden text-sm text-muted/75 lg:block">{c.blurb}</span>
+                <span className="mt-1 hidden text-sm text-muted lg:block">{c.blurb}</span>
               </button>
             ))}
           </div>
@@ -158,7 +164,7 @@ export function Expertise() {
                   <p className="eyebrow">{selected.name}</p>
                   {usedBy.length ? (
                     <>
-                      <p className="mt-3 text-sm text-muted/75">Used in:</p>
+                      <p className="mt-3 text-sm text-muted">Used in:</p>
                       <ul className="mt-3 flex flex-wrap gap-3">
                         {usedBy.map((p) => (
                           <li key={p.slug}>
@@ -173,14 +179,13 @@ export function Expertise() {
                       </ul>
                     </>
                   ) : (
-                    <p className="mt-3 text-sm text-muted/75">
-                      No project is mapped to this technology yet. Add its id to a project&apos;s{" "}
-                      <code className="text-primary">skills</code> list in <code className="text-primary">lib/data/projects.ts</code>.
+                    <p className="mt-3 text-sm text-muted">
+                      Part of the day-to-day toolkit, but not tied to one of the four featured case studies.
                     </p>
                   )}
                 </>
               ) : (
-                <p className="text-sm text-muted/75">Select a technology to see where it has been used.</p>
+                <p className="text-sm text-muted">Select a technology to see where it has been used.</p>
               )}
             </div>
           </div>

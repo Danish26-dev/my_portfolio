@@ -4,7 +4,7 @@
  * Do not edit them without the owner's confirmation.
  *
  * To add an official logo or certificate, drop the file in /public/logos or
- * /public/certificates and set `logo` / `certificate` (e.g. "/logos/ethglobal.svg").
+ * /public/certificates and set `logo` / `certificate` / `photo` (e.g. "/logos/ethglobal.svg").
  */
 export interface Achievement {
   id: string;
@@ -19,6 +19,7 @@ export interface Achievement {
   tier: "gold" | "silver" | "bronze" | "finalist";
   logo?: string;
   certificate?: string;
+  photo?: string;
 }
 
 export const achievements: Achievement[] = [

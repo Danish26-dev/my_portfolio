@@ -9,7 +9,7 @@ export default function NotFound() {
         <PhoenixMark size={72} className="mx-auto opacity-80" />
         <p className="eyebrow mt-8">Error 404</p>
         <h1 className="display mt-4 text-[clamp(3rem,10vw,7rem)]">Lost in the deep.</h1>
-        <p className="mx-auto mt-5 max-w-md text-muted/75">
+        <p className="mx-auto mt-5 max-w-md text-muted">
           This page drifted out of reach. The surface is still where you left it.
         </p>
         <Link href="/" className="btn-primary mt-9">
